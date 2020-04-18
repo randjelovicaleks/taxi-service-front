@@ -52,7 +52,7 @@ export default {
             password: this.password,
             }).then(response => {this.token = response.data;
             sessionStorage.setItem('token', JSON.stringify(this.token))
-            //this.proveriUlogu(this.token);    
+            //this.checkRole(this.token);    
             console.log(this.token);
             console.log("uspesno ste se ulogovali")                       
             }) // Kad stigne odgovor od servera preuzmi objekat
@@ -60,11 +60,11 @@ export default {
       },
       checkRole: function(token) {
         if (token.role.authority == "ROLE_CUSTOMER") {
-                   // this.$router.push('pocetnapacijent')
+                   // this.$router.push('')
         } else if (token.role.authority == "ROLE_DRIVER") {
-                   // this.$router.push('proveraprijave')
+                   // this.$router.push('')
         }else if (token.role.authority == "ROLE_DISPATCHER"){
-                 //   this.$router.push('proveraprijave')
+                 //   this.$router.push('')
         }
       }
     }

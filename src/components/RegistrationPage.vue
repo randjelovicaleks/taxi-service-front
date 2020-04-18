@@ -7,15 +7,15 @@
             <div class="text-center">
               <h3 class="dark-grey-text mb-5"><strong>Sign up</strong></h3>
             </div>
-            <mdb-input label="Your name" type="text" icon="address-card"/>
-            <mdb-input label="Your surname" type="text" containerClass="mb-0" icon="address-card" far />
-            <mdb-input label="Your username" type="text" icon="user"/>
-            <mdb-input label="Your password" type="password" containerClass="mb-0" icon="lock" />
-            <mdb-input label="Confirm your password" type="password" containerClass="mb-0" icon="exclamation-triangle" />
-            <mdb-input label="Your address" type="text" containerClass="mb-0" icon="map-marker-alt" />
-            <mdb-input label="Your phone number" type="text" icon="phone"/>
+            <mdb-input v-model="name" label="Your name" type="text" icon="address-card"/>
+            <mdb-input v-model="surname" label="Your surname" type="text" containerClass="mb-0" icon="address-card" far />
+            <mdb-input v-model="username" label="Your username" type="text" icon="user"/>
+            <mdb-input v-model="password" label="Your password" type="password" containerClass="mb-0" icon="lock" />
+            <mdb-input v-model="confirmingPassword" label="Confirm your password" type="password" containerClass="mb-0" icon="exclamation-triangle" />
+            <mdb-input v-model="address" label="Your address" type="text" containerClass="mb-0" icon="map-marker-alt" />
+            <mdb-input v-model="phoneNumber" label="Your phone number" type="text" icon="phone"/>
             <div class="text-center mb-3">
-              <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a">Sign up</mdb-btn>
+              <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a" @click="signup">Sign up</mdb-btn>
             </div>
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
@@ -29,6 +29,7 @@
 
 <script>
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbModalFooter } from 'mdbvue';
+import axios from 'axios'
 
 export default {
     name: 'RegistrationPage',
@@ -43,8 +44,34 @@ export default {
     },
     data() {
       return {
-        
+        name: '',
+        surname: '',
+        username: '',
+        password: '',
+        confirmingPassword: '',
+        address: '',
+        phoneNumber: '',
+        customer: null
       };
+    },
+    methods: {
+      signup: function() {
+          if (this.password != this.confirmingPassword) {
+            console.log("Lozinke se ne poklapaju")
+            return;
+          }
+
+          axios.post('http://localhost:8080/auth/registration', {
+              name: this.name,
+              surname: this.surname,
+              username: this.username,
+              password: this.password,
+              address: this.address,
+              phoneNumber: this.phoneNumber
+          }).then(data => {this.customer = data.customer; // Kad stigne odgovor od servera preuzmi objekat
+                this.$router.push('login')
+          })
+      }
     }
 }
 </script>
