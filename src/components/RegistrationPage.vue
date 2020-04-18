@@ -31,7 +31,7 @@
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbModalFooter } from 'mdbvue';
 
 export default {
-    name: 'LoginPage',
+    name: 'RegistrationPage',
     components: {
       mdbRow,
       mdbCol,

@@ -7,10 +7,10 @@
             <div class="text-center">
               <h3 class="dark-grey-text mb-5"><strong>Sign in</strong></h3>
             </div>
-            <mdb-input label="Your username" type="text" icon="user"/>
-            <mdb-input label="Your password" type="password" containerClass="mb-0" icon="lock" />
+            <mdb-input v-model="username" label="Your username" type="text" icon="user"/>
+            <mdb-input v-model="password" label="Your password" type="password" containerClass="mb-0" icon="lock" />
             <div class="text-center mb-3">
-              <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a">Sign in</mdb-btn>
+              <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a" @click="login">Sign in</mdb-btn>
             </div>
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
@@ -25,6 +25,7 @@
 
 <script>
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbModalFooter } from 'mdbvue';
+import axios from 'axios'
 
 export default {
     name: 'LoginPage',
@@ -39,8 +40,33 @@ export default {
     },
     data() {
       return {
-        
+          username: '',
+          password: '',
+          token: null,
       };
+    },
+    methods: {
+      login: function() {
+        axios.post('http://localhost:8080/auth/login', {
+            username: this.username,
+            password: this.password,
+            }).then(response => {this.token = response.data;
+            sessionStorage.setItem('token', JSON.stringify(this.token))
+            //this.proveriUlogu(this.token);    
+            console.log(this.token);
+            console.log("uspesno ste se ulogovali")                       
+            }) // Kad stigne odgovor od servera preuzmi objekat
+            
+      },
+      checkRole: function(token) {
+        if (token.role.authority == "ROLE_CUSTOMER") {
+                   // this.$router.push('pocetnapacijent')
+        } else if (token.role.authority == "ROLE_DRIVER") {
+                   // this.$router.push('proveraprijave')
+        }else if (token.role.authority == "ROLE_DISPATCHER"){
+                 //   this.$router.push('proveraprijave')
+        }
+      }
     }
 }
 </script>
@@ -61,4 +87,5 @@ export default {
     .marginTop {
         margin-top: 10%;
     }
+
 </style>
