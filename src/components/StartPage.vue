@@ -2,8 +2,8 @@
   <div class="mt-5">
     <div class="text-center buttons">
       <div class="row d-flex justify-content-center">
-        <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a col-1 mr-5"><router-link class="removeDecoration" to="/login">  Sign in</router-link></mdb-btn>
-        <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a col-1"><router-link class="removeDecoration" to="/signup">  Sign up</router-link></mdb-btn>
+        <mdb-btn type="button" color="indigo dark" rounded class="btn-block z-depth-1a col-1 mr-5"><router-link class="removeDecoration" to="/login">  Sign in</router-link></mdb-btn>
+        <mdb-btn type="button" color="indigo dark" rounded class="btn-block z-depth-1a col-1"><router-link class="removeDecoration" to="/signup">  Sign up</router-link></mdb-btn>
       </div>
     </div>    
      <div class="image"></div>

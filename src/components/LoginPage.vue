@@ -10,7 +10,7 @@
             <mdb-input v-model="username" label="Your username" type="text" icon="user"/>
             <mdb-input v-model="password" label="Your password" type="password" containerClass="mb-0" icon="lock" />
             <div class="text-center mb-3">
-              <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a" @click="login">Sign in</mdb-btn>
+              <mdb-btn type="button" color="indigo dark" rounded class="btn-block z-depth-1a" @click="login">Sign in</mdb-btn>
             </div>
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
@@ -48,23 +48,21 @@ export default {
     methods: {
       login: function() {
         axios.post('http://localhost:8080/auth/login', {
-            username: this.username,
-            password: this.password,
+              username: this.username,
+              password: this.password,
             }).then(response => {this.token = response.data;
             sessionStorage.setItem('token', JSON.stringify(this.token))
-            //this.checkRole(this.token);    
-            console.log(this.token);
-            console.log("uspesno ste se ulogovali")                       
-            }) // Kad stigne odgovor od servera preuzmi objekat
+            this.checkRole(this.token);                      
+            }) 
             
       },
       checkRole: function(token) {
         if (token.role.authority == "ROLE_CUSTOMER") {
-                   // this.$router.push('')
+              this.$router.push('/customer/profile')
         } else if (token.role.authority == "ROLE_DRIVER") {
-                   // this.$router.push('')
+                   console.log("driver")
         }else if (token.role.authority == "ROLE_DISPATCHER"){
-                 //   this.$router.push('')
+              this.$router.push('/dispatcher/all/customers')
         }
       }
     }
