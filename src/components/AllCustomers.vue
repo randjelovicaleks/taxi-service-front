@@ -24,7 +24,7 @@
                   <td class="text-center">{{customer.address}}</td>
                   <td class="text-center">{{customer.phoneNumber}}</td>
                   <td class="text-center">
-                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded" size="md" icon="trash" @click="remove(customer.id)">Delete</mdb-btn>
+                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="trash" @click="remove(customer.id)">Delete</mdb-btn>
                   </td>
               </tr>
             </mdb-tbl-body>

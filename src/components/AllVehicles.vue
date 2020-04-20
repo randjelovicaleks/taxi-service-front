@@ -8,7 +8,7 @@
           <span slot="tip">Add new vehicle</span>
           <!--Modal for adding vehicle-->
 
-          <mdb-btn type="button" slot="reference" color="indigo dark" class="py-2 px-3 pz-2 rounded col-1" size="sm" icon="plus" @click.native="adding = true"></mdb-btn>
+          <mdb-btn type="button" slot="reference" color="indigo dark text-white" class="py-2 px-3 pz-2 rounded col-1" size="sm" icon="plus" @click.native="adding = true"></mdb-btn>
           <mdb-modal :show="adding" @close="adding = false">
             <mdb-modal-header class="text-center">
               <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Add new vehicle <mdb-icon icon="taxi" size="lg" /></mdb-modal-title>
@@ -37,7 +37,7 @@
               </mdb-row>
             </mdb-modal-body>
             <mdb-modal-footer center>
-              <mdb-btn @click.native="add" color="indigo dark"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
+              <mdb-btn @click.native="add" color="indigo dark text-white"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
             </mdb-modal-footer>
           </mdb-modal>
         </mdb-tooltip>
@@ -64,10 +64,10 @@
                   <td class="text-center" v-if="vehicle.driver === undefined">Vehicle has no driver</td> 
                   <td class="text-center" v-else>{{vehicle.driver.name}}</td> 
                   <td class="text-center">
-                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded" size="md" icon="edit" @click="openEditModal">Edit</mdb-btn>
+                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="edit" @click="openEditModal">Edit</mdb-btn>
                   </td>
                   <td class="text-center">
-                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded" size="md" icon="trash" @click="remove(vehicle.id)">Delete</mdb-btn>
+                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="trash" @click="remove(vehicle.id)">Delete</mdb-btn>
                   </td>
               </tr>
             </mdb-tbl-body>

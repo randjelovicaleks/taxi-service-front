@@ -10,7 +10,7 @@
             <mdb-input v-model="username" label="Your username" type="text" icon="user"/>
             <mdb-input v-model="password" label="Your password" type="password" containerClass="mb-0" icon="lock" />
             <div class="text-center mb-3">
-              <mdb-btn type="button" color="indigo dark" rounded class="btn-block z-depth-1a" @click="login">Sign in</mdb-btn>
+              <mdb-btn type="button" color="indigo dark text-white" rounded class="btn-block z-depth-1a" @click="login">Sign in</mdb-btn>
             </div>
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
@@ -58,9 +58,9 @@ export default {
       },
       checkRole: function(token) {
         if (token.role.authority == "ROLE_CUSTOMER") {
-              this.$router.push('/customer/profile')
+              this.$router.push('/customer/home')
         } else if (token.role.authority == "ROLE_DRIVER") {
-              this.$router.push('/driver/profile')
+              this.$router.push('/driver/home')
         }else if (token.role.authority == "ROLE_DISPATCHER"){
               this.$router.push('/dispatcher/all/customers')
         }

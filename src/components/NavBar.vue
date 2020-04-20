@@ -32,6 +32,9 @@
       
         <!--Items for driver-->
         <mdb-nav-item v-if="token.role.authority == 'ROLE_DRIVER'">
+          <router-link to="/driver/home" class="removeDecoration">Home page</router-link>
+        </mdb-nav-item>
+        <mdb-nav-item v-if="token.role.authority == 'ROLE_DRIVER'">
           <router-link to="/driver/profile" class="removeDecoration">Profile</router-link>
         </mdb-nav-item>
 

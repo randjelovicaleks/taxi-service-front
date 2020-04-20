@@ -58,11 +58,11 @@
           </mdb-row>
         </mdb-card-body>
         <mdb-card-footer class="white d-flex justify-content-end">
-          <mdb-btn v-if="editable" dark color="indigo" icon="edit" far rounded @click="edit">Edit</mdb-btn>
+          <mdb-btn v-if="editable" dark color="indigo text-white" icon="edit" far rounded @click="edit">Edit</mdb-btn>
           <mdb-btn
             v-if="!editable"
             dark
-            color="indigo"
+            color="indigo text-white"
             icon="paper-plane"
             far
             rounded

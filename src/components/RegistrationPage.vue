@@ -15,11 +15,11 @@
             <mdb-input v-model="address" label="Your address" type="text" containerClass="mb-0" icon="map-marker-alt" />
             <mdb-input v-model="phoneNumber" label="Your phone number" type="text" icon="phone"/>
             <div class="text-center mb-3">
-              <mdb-btn type="button" color="indigo dark" rounded class="btn-block z-depth-1a" @click="signup">Sign up</mdb-btn>
+              <mdb-btn type="button" color="indigo dark text-white" rounded class="btn-block z-depth-1a" @click="signup">Sign up</mdb-btn>
             </div>
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
-            <p class="font-small grey-text d-flex justify-content-end">Already member?  <router-link to="/login">  Sign in</router-link></p>
+            <p class="font-small grey-text d-flex justify-content-end">Already a member?  <router-link to="/login">  Sign in</router-link></p>
           </mdb-modal-footer>
         </mdb-card>
       </mdb-col>
