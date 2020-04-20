@@ -50,7 +50,7 @@
             <mdb-col>
               <mdb-input
                 v-model="dispatcher.salary"
-                type="text"
+                type="number"
                 :disabled="editable"
                 icon="money-check-alt"
               />

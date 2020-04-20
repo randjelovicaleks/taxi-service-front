@@ -31,6 +31,9 @@
         </mdb-nav-item>
       
         <!--Items for driver-->
+        <mdb-nav-item v-if="token.role.authority == 'ROLE_DRIVER'">
+          <router-link to="/driver/profile" class="removeDecoration">Profile</router-link>
+        </mdb-nav-item>
 
         <!--Logout item is for everyone -->
         <mdb-nav-item>

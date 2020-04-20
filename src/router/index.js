@@ -9,6 +9,7 @@ import AllCustomers from '../components/AllCustomers.vue'
 import AllDrivers from '../components/AllDrivers.vue'
 import AllVehicles from '../components/AllVehicles.vue'
 import DispatcherProfile from '../components/DispatcherProfile.vue'
+import DriverProfile from '../components/DriverProfile.vue'
 
 Vue.use(Router);
 
@@ -63,6 +64,11 @@ export default new Router({
             path: '/dispatcher/profile',
 			name: 'DispatcherProfile',
 			component: DispatcherProfile
+		},
+		{
+            path: '/driver/profile',
+			name: 'DriverProfile',
+			component: DriverProfile
 		},
 
 	]

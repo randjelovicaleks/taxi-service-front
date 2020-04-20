@@ -40,10 +40,10 @@
               </mdb-row>
               <mdb-row>
                 <mdb-col>
-                  <mdb-input v-model="driver.salary" label="Salary" icon="money-check-alt" type="text" class="mb-5"/>
+                  <mdb-input v-model="driver.salary" label="Salary" icon="money-check-alt" type="number" class="mb-5"/>
                 </mdb-col>
                 <mdb-col>
-                  <mdb-label >Choose a vehicle</mdb-label>
+                  <mdb-label >Choose a vehicle number</mdb-label>
                   <select class="browser-default custom-select mt-3 " v-model="idVehicle">
                     <option v-for="v in vehicles" :key="v.id" v-value="v.id">{{v.vehicleNumber}}</option>
                   </select>
@@ -117,7 +117,7 @@
                   <mdb-input v-model="driverEdit.taxiCardNumber" icon="taxi" type="text" class="mb-5"/>
                 </mdb-col>
                  <mdb-col>
-                  <mdb-input v-model="driverEdit.salary" icon="money-check-alt" type="text" class="mb-5"/>
+                  <mdb-input v-model="driverEdit.salary" icon="money-check-alt" type="number" class="mb-5"/>
                 </mdb-col>
               </mdb-row>
             </mdb-modal-body>

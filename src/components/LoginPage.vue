@@ -60,7 +60,7 @@ export default {
         if (token.role.authority == "ROLE_CUSTOMER") {
               this.$router.push('/customer/profile')
         } else if (token.role.authority == "ROLE_DRIVER") {
-                   console.log("driver")
+              this.$router.push('/driver/profile')
         }else if (token.role.authority == "ROLE_DISPATCHER"){
               this.$router.push('/dispatcher/all/customers')
         }

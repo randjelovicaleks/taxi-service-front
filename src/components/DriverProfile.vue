@@ -12,7 +12,7 @@
           <mdb-row>
             <mdb-col>
               <mdb-input
-                v-model="customer.name"
+                v-model="driver.name"
                 type="text"
                 :disabled="editable"
                 icon="address-card"
@@ -20,7 +20,7 @@
             </mdb-col>
             <mdb-col>
               <mdb-input
-                v-model="customer.surname"
+                v-model="driver.surname"
                 type="text"
                 :disabled="editable"
                 icon="address-card"
@@ -31,7 +31,7 @@
           <mdb-row>
             <mdb-col>
               <mdb-input
-                v-model="customer.address"
+                v-model="driver.address"
                 type="text"
                 :disabled="editable"
                 icon="map-marker-alt"
@@ -39,11 +39,19 @@
             </mdb-col>
             <mdb-col>
               <mdb-input
-                v-model="customer.phoneNumber"
+                v-model="driver.phoneNumber"
                 type="text"
                 :disabled="editable"
                 icon="phone"
               />
+            </mdb-col>
+          </mdb-row>
+          <mdb-row>
+            <mdb-col>
+              <mdb-input v-model="driver.taxiCardNumber" icon="taxi" type="text" class="mb-5" />
+            </mdb-col>
+            <mdb-col>
+              <mdb-input v-model="driver.salary" icon="money-check-alt" type="number" class="mb-5" />
             </mdb-col>
           </mdb-row>
         </mdb-card-body>
@@ -55,10 +63,15 @@
             color="indigo"
             icon="paper-plane"
             rounded
-            @click="save(customer)"
+            @click="save(driver)"
           >Send</mdb-btn>
         </mdb-card-footer>
-        <mdb-alert v-if="showAlert" @closeAlert="showAlert=false" dismiss color="success">You successfully edit your info.</mdb-alert>
+        <mdb-alert
+          v-if="showAlert"
+          @closeAlert="showAlert=false"
+          dismiss
+          color="success"
+        >You successfully edit your info.</mdb-alert>
       </mdb-card>
     </div>
   </div>
@@ -76,14 +89,14 @@ import {
   mdbCardBody,
   mdbCardHeader,
   mdbCardTitle,
-	mdbCardFooter,
-	mdbAlert,
+  mdbCardFooter,
+  mdbAlert
 } from "mdbvue";
 
-const baseUrl = "http://localhost:8080/api/customer";
+const baseUrl = "http://localhost:8080/api/driver";
 
 export default {
-  name: "CustomerProfile",
+  name: "DriverProfile",
   components: {
     NavBar,
     mdbRow,
@@ -94,48 +107,54 @@ export default {
     mdbCardBody,
     mdbCardHeader,
     mdbCardTitle,
-		mdbCardFooter,
-		mdbAlert,
+    mdbCardFooter,
+    mdbAlert
   },
   data() {
     return {
-      customer: {
-        name: '',
-        surname: '',
-        address: '',
-        phoneNumber: ''
+      driver: {
+        name: "",
+        surname: "",
+        address: "",
+        phoneNumber: "",
+        taxiCardNumber: "",
+        salary: ""
       },
       token: JSON.parse(sessionStorage.getItem("token")),
-			editable: true,
-			showAlert: false,
+      editable: true,
+      showAlert: false
     };
   },
   created() {
     axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
     axios.get(baseUrl + "/" + this.token.id).then(response => {
-      this.customer = response.data;
+      this.driver = response.data;
     });
   },
   methods: {
     edit: function() {
       this.editable = false;
     },
-    save: function(customer) {
+    save: function(driver) {
       axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
       axios
         .put(baseUrl + "/update", {
           id: this.token.id,
-          name: customer.name,
-          surname: customer.surname,
-          address: customer.address,
-          phoneNumber: customer.phoneNumber
+          name: driver.name,
+          surname: driver.surname,
+          address: driver.address,
+          phoneNumber: driver.phoneNumber,
+          taxiCardNumber: driver.taxiCardNumber,
+          salary: driver.salary
         })
         .then(response => {
-					customer = response.data;
-					this.showAlert = true;
-          setTimeout(() => {this.showAlert = false;}, 3500);
+          driver = response.data;
+          this.showAlert = true;
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 3500);
           this.editable = true;
         })
         .catch(() => {
