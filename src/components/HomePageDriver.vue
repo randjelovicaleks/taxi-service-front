@@ -3,9 +3,10 @@
     <NavBar />
     <div class="container pt-5">
       <mdb-card >
-        <h4 class="card-header indigo white-text text-center font-weight-bold text-uppercase py-3">All drives</h4>
+        <h4 class="card-header indigo white-text text-center font-weight-bold py-3">All drives without driver</h4>
         <mdb-card-body>
-          <mdb-tbl>
+          <p v-if="drives.length < 1" class="text-center">No drives</p>
+          <mdb-tbl v-else>
             <mdb-tbl-head>
               <tr>
                 <th class="font-weight-bold text-center">Starting address</th>
@@ -18,8 +19,8 @@
             <mdb-tbl-body>
               <tr v-for="drive in drives" :key="drive.id">
                   <td class="text-center">{{drive.startingAddress}}</td>
-                  <td class="text-center">{{drive.orderDate}}</td>
-                  <td class="text-center">cao</td>
+                  <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                  <td class="text-center">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
                   <td class="text-center">{{drive.note}}</td>
                   <td class="text-center">
                     <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="taxi" @click="takeDrive(drive.id)">Take a drive</mdb-btn>
@@ -81,7 +82,20 @@ export default {
     });
   },
   methods: {
-     
+     takeDrive: function(idDrive) {
+        axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+
+        axios.put(baseUrl + '/driver/take/drive/' + idDrive + '/' +this.token.id, {
+            id: this.drive.id,
+           // startingAddress: this.drive.startingAddress,
+           // orderDate: this.drive.orderDate,
+           // note: this.drive.note,
+
+        }).then(() => {
+          console.log("Voznja je preuzeta od strane vozaca sa id" + this.token.id);
+          location.reload();
+        })
+     }
   }
 };
 </script>
@@ -94,4 +108,5 @@ export default {
     color: rgb(17, 16, 16);
     font-family: 'Raleway', sans-serif;
 }
+
 </style>

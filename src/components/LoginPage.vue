@@ -62,7 +62,7 @@ export default {
         } else if (token.role.authority == "ROLE_DRIVER") {
               this.$router.push('/driver/home')
         }else if (token.role.authority == "ROLE_DISPATCHER"){
-              this.$router.push('/dispatcher/all/customers')
+              this.$router.push('/dispatcher/home')
         }
       }
     }

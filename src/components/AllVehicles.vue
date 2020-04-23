@@ -56,15 +56,15 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="vehicle in vehicles" :key="vehicle.id">
-                  <td class="text-center">{{vehicle.model}}</td>
+                  <td class="text-center font-fix">{{vehicle.model}}</td>
                   <td class="text-center">{{vehicle.manufacturer}}</td>
                   <td class="text-center">{{vehicle.firstRegistration}}</td>
                   <td class="text-center">{{vehicle.registrationNumber}}</td>
                   <td class="text-center">{{vehicle.vehicleNumber}}</td>
-                  <td class="text-center" v-if="vehicle.driver === undefined">Vehicle has no driver</td> 
-                  <td class="text-center" v-else>{{vehicle.driver.name}}</td> 
+                  <td class="text-center" v-if="vehicle.driverDTO === null">Vehicle has no driver</td> 
+                  <td class="text-center" v-else>{{vehicle.driverDTO.name + ' ' + vehicle.driverDTO.surname}}</td> 
                   <td class="text-center">
-                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="edit" @click="openEditModal">Edit</mdb-btn>
+                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="edit" @click="openEditModal(vehicle)">Edit</mdb-btn>
                   </td>
                   <td class="text-center">
                     <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="trash" @click="remove(vehicle.id)">Delete</mdb-btn>
@@ -76,6 +76,42 @@
       </mdb-card>
     </div>
     <!--Modal for editing vehicle-->
+        <mdb-modal :show="editing" @close="closeModal">
+            <mdb-modal-header class="text-center">
+              <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Edit vehicle <mdb-icon icon="taxi" size="lg" /></mdb-modal-title>
+            </mdb-modal-header>
+            <mdb-modal-body class="mx-3 grey-text">
+              <mdb-row>
+                <mdb-col>
+                  <mdb-label>Model</mdb-label>
+                  <mdb-input v-model="vehicleEdit.model" class="mb-5" type="text" />
+                </mdb-col>
+                <mdb-col>
+                  <mdb-label>Manufacturer</mdb-label>
+                  <mdb-input v-model="vehicleEdit.manufacturer" type="text" class="mb-5"/>
+                </mdb-col>
+              </mdb-row>
+              <mdb-row>
+                <mdb-col>
+                  <mdb-label>First registration</mdb-label>
+                  <mdb-input v-model="vehicleEdit.firstRegistration" class="mb-5" type="text" />
+                </mdb-col>
+                <mdb-col>
+                  <mdb-label>Registration number</mdb-label>
+                  <mdb-input v-model="vehicleEdit.registrationNumber" type="text" class="mb-5"/>
+                </mdb-col>
+              </mdb-row>
+              <mdb-row>
+                <mdb-col>
+                  <mdb-label>Vehicle number</mdb-label>
+                  <mdb-input v-model="vehicleEdit.vehicleNumber" class="mb-5" type="text"/>
+                </mdb-col>
+              </mdb-row>
+            </mdb-modal-body>
+            <mdb-modal-footer center>
+              <mdb-btn @click.native="edit" color="indigo dark text-white"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
+            </mdb-modal-footer>
+          </mdb-modal>
   </div>
 </template>
 
@@ -132,13 +168,10 @@ export default {
           firstRegistration: '',
           registrationNumber: '',
           vehicleNumber: '',         
-      },
-      driver: {
-        name: '',
-        surname: '',
       },     
       adding: false,
       editing: false,
+      vehicleEdit: {},
     }
   },
   created() {
@@ -150,26 +183,60 @@ export default {
     });
   },
   methods: {
-     /* remove: function(id) {
+      remove: function(id) {
           axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
-          axios.delete(baseUrl + '/delete/' + id)
+          axios.delete(baseUrl + '/vehicle/' + id)
           .then(() => {
               location.reload();
           });
-      }*/
-      openEditModal: function() {
+      },
+      add: function() {
+          axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+
+          axios.post(baseUrl + '/vehicle/create', {
+              model: this.vehicle.model,
+              manufacturer: this.vehicle.manufacturer,
+              firstRegistration: this.vehicle.firstRegistration,
+              registrationNumber: this.vehicle.registrationNumber,
+              vehicleNumber: this.vehicle.vehicleNumber
+          }).then(() => {
+            this.adding = false;
+            location.reload();
+          })
+      },
+      openEditModal: function(vehicle) {
+        this.vehicleEdit = vehicle;
         this.editing = true;
+      },
+      closeModal: function() {
+        this.editing = false;
+      },
+      edit: function() {
+          axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+
+          axios.put(baseUrl + '/vehicle/update', {
+            id: this.vehicleEdit.id,
+            model: this.vehicleEdit.model,
+            manufacturer: this.vehicleEdit.manufacturer,
+            firstRegistration: this.vehicleEdit.firstRegistration,
+            registrationNumber: this.vehicleEdit.registrationNumber,
+            vehicleNumber: this.vehicleEdit.vehicleNumber
+          }).then(() => {
+            this.closeModal();
+            location.reload();
+          })
       }
   }
 };
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
 
 .removeDecoration {
     text-decoration: none;
     color: rgb(17, 16, 16);
     font-family: 'Raleway', sans-serif;
 }
+
 </style>

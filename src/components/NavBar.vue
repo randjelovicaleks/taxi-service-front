@@ -13,7 +13,7 @@
 
         <!--Items for dispatcher/admin-->
         <mdb-nav-item v-if="token.role.authority == 'ROLE_DISPATCHER'">
-          <router-link to="/dispatcher/profile" class="removeDecoration">Profile</router-link>
+          <router-link to="/dispatcher/home" class="removeDecoration">Home page</router-link>
         </mdb-nav-item>
         <mdb-dropdown tag="li" class="nav-item" v-if="token.role.authority == 'ROLE_DISPATCHER'">
           <mdb-dropdown-toggle tag="a" navLink color="indigo" slot="toggle" waves-fixed>Users</mdb-dropdown-toggle>
@@ -29,16 +29,25 @@
         <mdb-nav-item v-if="token.role.authority == 'ROLE_DISPATCHER'">
           <router-link to="/dispatcher/all/vehicles" class="removeDecoration">Vehicles</router-link>
         </mdb-nav-item>
+         <mdb-nav-item v-if="token.role.authority == 'ROLE_DISPATCHER'">
+          <router-link to="/dispatcher/profile" class="removeDecoration">Profile</router-link>
+        </mdb-nav-item>
       
         <!--Items for driver-->
         <mdb-nav-item v-if="token.role.authority == 'ROLE_DRIVER'">
           <router-link to="/driver/home" class="removeDecoration">Home page</router-link>
         </mdb-nav-item>
         <mdb-nav-item v-if="token.role.authority == 'ROLE_DRIVER'">
+          <router-link to="/driver/drives" class="removeDecoration">Drives</router-link>
+        </mdb-nav-item>
+        <mdb-nav-item v-if="token.role.authority == 'ROLE_DRIVER'">
           <router-link to="/driver/profile" class="removeDecoration">Profile</router-link>
         </mdb-nav-item>
 
-        <!--Logout item is for everyone -->
+        <!--Items for everyone -->
+        <mdb-nav-item>
+          <router-link to="/change/password" class="removeDecoration">Change password</router-link>
+        </mdb-nav-item>
         <mdb-nav-item>
           <router-link to="/login" class="removeDecoration" @click="logout">Log out</router-link>
         </mdb-nav-item>

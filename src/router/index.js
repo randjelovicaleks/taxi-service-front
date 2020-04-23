@@ -9,8 +9,11 @@ import AllCustomers from '../components/AllCustomers.vue'
 import AllDrivers from '../components/AllDrivers.vue'
 import AllVehicles from '../components/AllVehicles.vue'
 import DispatcherProfile from '../components/DispatcherProfile.vue'
+import HomePageDispatcher from '../components/HomePageDispatcher.vue'
 import DriverProfile from '../components/DriverProfile.vue'
 import HomePageDriver from '../components/HomePageDriver.vue'
+import AllDrivesDriver from '../components/AllDrivesDriver.vue'
+import ChangePassword from '../components/ChangePassword.vue'
 
 Vue.use(Router);
 
@@ -67,6 +70,11 @@ export default new Router({
 			component: DispatcherProfile
 		},
 		{
+            path: '/dispatcher/home',
+			name: 'HomePageDispatcher',
+			component: HomePageDispatcher
+		},
+		{
             path: '/driver/profile',
 			name: 'DriverProfile',
 			component: DriverProfile
@@ -75,6 +83,16 @@ export default new Router({
             path: '/driver/home',
 			name: 'HomePageDriver',
 			component: HomePageDriver
+		},
+		{
+            path: '/driver/drives',
+			name: 'AllDrivesDriver',
+			component: AllDrivesDriver
+		},
+		{
+            path: '/change/password',
+			name: 'ChangePassword',
+			component: ChangePassword
 		},
 
 	]

@@ -208,13 +208,13 @@ export default {
 
   },
   methods: {
-    /*  remove: function(id) {
+      remove: function(id) {
           axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
-          axios.delete(baseUrl + '/delete/' + id)
+          axios.delete(baseUrl + '/driver/delete/' + id)
           .then(() => {
               location.reload();
           });
-      }*/
+      },
       add: function() {
         axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
@@ -237,7 +237,6 @@ export default {
       },
       closeModal: function() {
         this.editing = false;
-        location.reload();
       },
       edit: function() {
           axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
@@ -252,6 +251,7 @@ export default {
             salary: this.driverEdit.salary
           }).then(() => {
             this.editing = false; 
+            location.reload();
           })
       }
      

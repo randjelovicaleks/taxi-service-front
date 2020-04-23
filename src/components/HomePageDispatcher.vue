@@ -5,7 +5,7 @@
       <mdb-card class="col-4 mx-auto">
         <mdb-card-header class="pt-2" dark color="indigo">
           <mdb-card-title class="pt-3">
-            <strong>Reserve drive</strong>
+            <strong>Add drive</strong>
           </mdb-card-title>
         </mdb-card-header>
         <mdb-card-body>
@@ -21,7 +21,15 @@
           </mdb-row>
           <mdb-row>
             <mdb-col>
-              <mdb-input v-model="note" type="textarea" label="Note" icon="pen" :rows="2" />
+              <mdb-input v-model="customerName" type="text" label="Customer name" icon="user" />
+            </mdb-col>
+          </mdb-row>
+           <mdb-row>
+            <mdb-col>
+               <mdb-label >Choose the driver</mdb-label>
+                <select class="browser-default custom-select mt-3 " v-model="idDriver">
+                  <option v-for="d in drivers" :key="d.id" v-value="d.id">{{d.name + ' ' + d.surname}}</option>
+                </select>
             </mdb-col>
           </mdb-row>
         </mdb-card-body>
@@ -29,58 +37,58 @@
           <mdb-btn color="indigo dark text-white" icon="paper-plane" @click="save()" rounded>Send</mdb-btn>
         </mdb-card-footer>
       </mdb-card>
-  
-      <mdb-card class="col-6 mx-auto">
-        <h4 class="card-header indigo white-text text-center font-weight-bold py-4">All my drives</h4>
-        <mdb-card-body>
-          <p v-if="drives.length < 1" class="text-center">No drives</p>
+      
+      <b-tabs content-class="mt-3" class="col-7 mx-auto">
+        <!--Drives by phone-->
+        <b-tab title="Drives by phone" active>  
+          <p v-if="drivesByPhone.length < 1" class="text-center">No drives</p>     
           <mdb-tbl v-else>
             <mdb-tbl-head>
               <tr>
                 <th class="font-weight-bold text-center">Starting address</th>
                 <th class="font-weight-bold text-center">Order date and time</th>
-                <th class="font-weight-bold text-center">Note</th>
-                <th class="font-weight-bold text-center">Options</th>
+                <th class="font-weight-bold text-center">Customer</th>
+                <th class="font-weight-bold text-center">Driver</th>
+                <th class="font-weight-bold text-center">Dispatcher</th>
               </tr>
             </mdb-tbl-head>
             <mdb-tbl-body>
-              <tr v-for="drive in drives" :key="drive.id">
+              <tr v-for="drive in drivesByPhone" :key="drive.id">
                   <td class="text-center">{{drive.startingAddress}}</td>
                   <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                  <td class="text-center">{{drive.note}}</td>
-                  <td class="text-center">
-                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="edit" @click="openEditModal(drive)">Edit</mdb-btn>
-                  </td>
+                  <td class="text-center">{{drive.customerName}}</td>
+                  <td class="text-center">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
+                  <td class="text-center">{{drive.dispatcherDTO.name + ' ' + drive.dispatcherDTO.surname}}</td>                 
               </tr>
             </mdb-tbl-body>
-          </mdb-tbl>
-        </mdb-card-body>
-      </mdb-card>
+          </mdb-tbl>      
+        </b-tab>
+        <!--Drives by app-->
+        <b-tab title="Drives by app">
+          <p v-if="drivesByApp.length < 1" class="text-center">No drives</p>
+          <mdb-tbl v-else>
+            <mdb-tbl-head>
+              <tr>
+                <th class="font-weight-bold text-center">Starting address</th>
+                <th class="font-weight-bold text-center">Order date and time</th>
+                <th class="font-weight-bold text-center">Customer</th>
+                <th class="font-weight-bold text-center">Driver</th>
+                <th class="font-weight-bold text-center">Note</th>
+              </tr>
+            </mdb-tbl-head>
+            <mdb-tbl-body>
+              <tr v-for="drive in drivesByApp" :key="drive.id">
+                  <td class="text-center">{{drive.startingAddress}}</td>
+                  <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                  <td class="text-center">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
+                  <td class="text-center">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
+                  <td class="text-center">{{drive.note}}</td>
+              </tr>
+            </mdb-tbl-body>
+          </mdb-tbl>    
+        </b-tab>
+      </b-tabs>
     </div>
-    <!--Modal for editing drive-->
-     <mdb-modal :show="editing" @close="closeModal">
-            <mdb-modal-header class="text-center">
-              <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Edit drive <mdb-icon icon="taxi" size="lg" /></mdb-modal-title>
-            </mdb-modal-header>
-            <mdb-modal-body class="mx-3 grey-text">
-              <mdb-row>
-                <mdb-col>
-                  <mdb-input v-model="driveEdit.orderDate" icon="calendar"  class="mb-5" type="text" />
-                </mdb-col>
-                <mdb-col>
-                  <mdb-input v-model="driveEdit.startingAddress" icon="map-marker-alt" type="text" class="mb-5"/>
-                </mdb-col>
-              </mdb-row>
-              <mdb-row>
-                <mdb-col>
-                  <mdb-input v-model="driveEdit.note" icon="pen" :rows="2" class="mb-5" type="text" />
-                </mdb-col>
-              </mdb-row>
-            </mdb-modal-body>
-            <mdb-modal-footer center>
-              <mdb-btn @click.native="edit" color="indigo dark text-white"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
-            </mdb-modal-footer>
-          </mdb-modal>
   </div>
 </template>
 
@@ -100,16 +108,13 @@ import {
   mdbTbl,
   mdbTblHead,
   mdbTblBody,
-  mdbModal,
-  mdbModalHeader,
-  mdbModalBody,
-  mdbModalFooter,
+  mdbLabel,
 } from "mdbvue";
 
 const baseUrl = "http://localhost:8080/api";
 
 export default {
-  name: "HomePageCustomer",
+  name: "HomePageDispatcher",
   components: {
     NavBar,
     mdbRow,
@@ -124,33 +129,37 @@ export default {
     mdbTbl,
     mdbTblHead,
     mdbTblBody,
-    mdbModal,
-    mdbModalHeader,
-    mdbModalBody,
-    mdbModalFooter,
+    mdbLabel,
   },
   data() {
     return {
       token: JSON.parse(sessionStorage.getItem("token")),
-      drives: [],
+      drivers: [],
+      driver: {},
       drive: {},
+      drivesByPhone:[],
+      drivesByApp:[],
       startingAddress: "",
       orderDate: null,
-      note: "",
-      driveEdit: {},
-      editing: false,
+      customerName: '',
+      idDriver: '',
     };
   },
   created() {
      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
-     axios.get(baseUrl + '/drive/customer/' + this.token.id)
+     axios.get(baseUrl + '/drive/all/app')
      .then((response) => {
-       this.drives = response.data;
+       this.drivesByApp = response.data;
+     })
+
+     axios.get(baseUrl + '/drive/all/phone')
+     .then((response) => {
+       this.drivesByPhone = response.data;
      })
   },
   methods: {
-    save: function() {
+    /*save: function() {
       axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
       axios.post(baseUrl + '/customer/create/' + this.token.id, {
@@ -162,27 +171,7 @@ export default {
           console.log("Voznja je uspesno kreirana");
           location.reload();
         });
-    },
-    openEditModal: function(drive) {
-      this.driveEdit = drive;
-      this.editing = true;
-    },
-    closeModal: function() {
-      this.editing = false;
-    },
-    edit: function() {
-      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
-
-      axios.put(baseUrl + '/customer/update/drive/' + this.token.id, {
-        id: this.driveEdit.id,
-        startingAddress: this.driveEdit.startingAddress,
-        orderDate: this.driveEdit.orderDate,
-        note: this.driveEdit.note,
-      }).then(() => {
-        this.closeModal();
-        location.reload();
-      })
-    }
+    },*/
   }
 };
 </script>
