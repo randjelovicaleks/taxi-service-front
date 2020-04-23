@@ -1,6 +1,6 @@
 <template>
   <mdb-navbar expand="large" dark color="indigo">
-    <mdb-navbar-brand class="removeDecoration font-weight-bold" icon="taxi"><b>Blue Taxi</b></mdb-navbar-brand>
+    <mdb-navbar-brand class="removeDecoration font-weight-bold logo" icon="taxi"><b>Blue Taxi</b></mdb-navbar-brand>
     <mdb-navbar-toggler>
       <mdb-navbar-nav right>
         <!--Items for customer-->
@@ -98,12 +98,16 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Pacifico|Raleway&display=swap');
 
 .removeDecoration {
     text-decoration: none;
     color: #fff;
     font-family: 'Raleway', sans-serif;
+}
+
+.logo {
+    font-family: 'Pacifico', cursive;
 }
 
 </style>

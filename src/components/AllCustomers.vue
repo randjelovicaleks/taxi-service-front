@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container pt-5">
       <mdb-card >
-        <h4 class="card-header indigo white-text text-center font-weight-bold text-uppercase py-3">All customers</h4>
+        <h4 class="card-header indigo white-text text-center font-weight-bold py-3">All customers</h4>
         <mdb-card-body>
           <mdb-tbl>
             <mdb-tbl-head>

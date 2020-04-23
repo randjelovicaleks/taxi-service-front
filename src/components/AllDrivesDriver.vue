@@ -15,6 +15,8 @@
                   <th class="font-weight-bold text-center">Order date and time</th>
                   <th class="font-weight-bold text-center">Customer</th>
                   <th class="font-weight-bold text-center">Note</th>
+                  <th class="font-weight-bold text-center">Price</th>
+                  <th class="font-weight-bold text-center">Options</th>
                 </tr>
               </mdb-tbl-head>
               <mdb-tbl-body v-if="drives.length > 1">
@@ -25,6 +27,11 @@
                   <td class="text-center" v-else>{{drive.customerName}}</td>
                   <td class="text-center" v-if="drive.note != null">{{drive.note}}</td>
                   <td class="text-center" v-else>Drive has no note</td>
+                  <td class="text-center">{{drive.price}}</td>
+                  <td class="text-center" v-if="drive.price === 0">
+                      <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="plus" @click="openModal(drive.id)">Add kilometers</mdb-btn>
+                  </td>
+                  <td class="text-center" v-else>Price for drive is calculated</td>
                 </tr>
               </mdb-tbl-body>
             </mdb-tbl>
@@ -32,6 +39,22 @@
         </mdb-card>
       </mdb-tooltip>
     </div>
+    <mdb-modal :show="adding" @close="closeModal">
+            <mdb-modal-header class="text-center">
+              <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Add kilometers</mdb-modal-title>
+            </mdb-modal-header>
+            <mdb-modal-body class="mx-3 grey-text">
+              <mdb-row>
+                <mdb-col>
+                  <mdb-label>Kilometers</mdb-label>
+                  <mdb-input v-model="kilometers" class="mb-5" type="number" />
+                </mdb-col>
+              </mdb-row>
+            </mdb-modal-body>
+            <mdb-modal-footer center>
+              <mdb-btn @click.native="save" color="indigo dark text-white"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
+            </mdb-modal-footer>
+          </mdb-modal>
   </div>
 </template>
 
@@ -44,7 +67,18 @@ import {
   mdbTbl,
   mdbTblHead,
   mdbTblBody,
-  mdbTooltip
+  mdbTooltip,
+  mdbBtn,
+  mdbModal,
+  mdbModalHeader,
+  mdbModalBody,
+  mdbInput,
+  mdbModalFooter,
+  mdbLabel,
+  mdbModalTitle,
+  mdbIcon,
+  mdbCol,
+  mdbRow,
 } from "mdbvue";
 
 const baseUrl = "http://localhost:8080/api";
@@ -58,7 +92,18 @@ export default {
     mdbTblHead,
     mdbTblBody,
     mdbTooltip,
-    NavBar
+    NavBar,
+    mdbBtn,
+    mdbModal,
+    mdbModalHeader,
+    mdbModalBody,
+    mdbInput,
+    mdbModalFooter,
+    mdbLabel,
+    mdbModalTitle,
+    mdbIcon,
+    mdbCol,
+    mdbRow,
   },
   data() {
     return {
@@ -67,8 +112,12 @@ export default {
       drive: {
         startingAddress: "",
         orderDate: null,
-        note: ""
-      }
+        note: "",
+        price: 0,
+      },
+      adding: false,
+      idDrive: '',
+      kilometers: 0,
     };
   },
   created() {
@@ -77,6 +126,23 @@ export default {
     axios.get(baseUrl + "/drive/driver/" + this.token.id).then(response => {
       this.drives = response.data;
     });
+  },
+  methods: {
+    openModal: function(id) {
+      this.adding = true;
+      this.idDrive = id;
+    },
+    closeModal: function() {
+      this.adding = false;
+    },
+    save: function() {
+      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+
+      axios.put(baseUrl + '/driver/calculate/price/' + this.token.id + '/' + this.idDrive + '/' + this.kilometers).then(() => {
+        this.closeModal();
+        location.reload();
+      })
+    }
   }
 };
 </script>

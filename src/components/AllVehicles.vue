@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container pt-5">
       <mdb-card >
-        <h4 class="card-header indigo white-text text-center font-weight-bold text-uppercase py-3">All vehicles</h4>
+        <h4 class="card-header indigo white-text text-center font-weight-bold py-3">All vehicles</h4>
         <mdb-tooltip material trigger="hover" :options="{placement: 'right'}">
           <span slot="tip">Add new vehicle</span>
           <!--Modal for adding vehicle-->

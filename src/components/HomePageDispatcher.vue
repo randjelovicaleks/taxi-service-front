@@ -4,7 +4,7 @@
     <div class="row mt-5">
       <mdb-card class="col-4 mx-auto">
         <mdb-card-header class="pt-2" dark color="indigo">
-          <mdb-card-title class="pt-3">
+          <mdb-card-title class="pt-3 text-center">
             <strong>Add drive</strong>
           </mdb-card-title>
         </mdb-card-header>
@@ -50,6 +50,7 @@
                 <th class="font-weight-bold text-center">Customer</th>
                 <th class="font-weight-bold text-center">Driver</th>
                 <th class="font-weight-bold text-center">Dispatcher</th>
+                <th class="font-weight-bold text-center">Price</th>
               </tr>
             </mdb-tbl-head>
             <mdb-tbl-body>
@@ -58,7 +59,9 @@
                   <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
                   <td class="text-center">{{drive.customerName}}</td>
                   <td class="text-center">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
-                  <td class="text-center">{{drive.dispatcherDTO.name + ' ' + drive.dispatcherDTO.surname}}</td>                 
+                  <td class="text-center">{{drive.dispatcherDTO.name + ' ' + drive.dispatcherDTO.surname}}</td> 
+                  <td class="text-center" v-if="drive.price != 0">{{drive.price}}</td> 
+                  <td class="text-center" v-else>Driver has not entered kilometers yet</td>               
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>      

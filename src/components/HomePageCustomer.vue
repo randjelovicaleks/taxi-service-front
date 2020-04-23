@@ -4,7 +4,7 @@
     <div class="row mt-5">
       <mdb-card class="col-4 mx-auto">
         <mdb-card-header class="pt-2" dark color="indigo">
-          <mdb-card-title class="pt-3">
+          <mdb-card-title class="pt-3 text-center">
             <strong>Reserve drive</strong>
           </mdb-card-title>
         </mdb-card-header>
@@ -65,15 +65,17 @@
             <mdb-modal-body class="mx-3 grey-text">
               <mdb-row>
                 <mdb-col>
-                  <mdb-input v-model="driveEdit.orderDate" icon="calendar"  class="mb-5" type="text" />
+                  <mdb-input v-model="orderDateEdit" icon="calendar"  class="mb-5" type="datetime-local"  />
                 </mdb-col>
+              </mdb-row>
+              <mdb-row>
                 <mdb-col>
                   <mdb-input v-model="driveEdit.startingAddress" icon="map-marker-alt" type="text" class="mb-5"/>
                 </mdb-col>
               </mdb-row>
               <mdb-row>
                 <mdb-col>
-                  <mdb-input v-model="driveEdit.note" icon="pen" :rows="2" class="mb-5" type="text" />
+                  <mdb-input v-model="driveEdit.note" icon="pen" :rows="2" class="mb-5" type="textarea" />
                 </mdb-col>
               </mdb-row>
             </mdb-modal-body>
@@ -104,6 +106,7 @@ import {
   mdbModalHeader,
   mdbModalBody,
   mdbModalFooter,
+  mdbIcon,
 } from "mdbvue";
 
 const baseUrl = "http://localhost:8080/api";
@@ -128,6 +131,7 @@ export default {
     mdbModalHeader,
     mdbModalBody,
     mdbModalFooter,
+    mdbIcon,
   },
   data() {
     return {
@@ -139,6 +143,7 @@ export default {
       note: "",
       driveEdit: {},
       editing: false,
+      orderDateEdit: null,
     };
   },
   created() {
@@ -166,6 +171,7 @@ export default {
     openEditModal: function(drive) {
       this.driveEdit = drive;
       this.editing = true;
+      this.orderDateEdit = new Date(drive.orderDate).toLocaleString();
     },
     closeModal: function() {
       this.editing = false;
@@ -176,7 +182,7 @@ export default {
       axios.put(baseUrl + '/customer/update/drive/' + this.token.id, {
         id: this.driveEdit.id,
         startingAddress: this.driveEdit.startingAddress,
-        orderDate: this.driveEdit.orderDate,
+        orderDate: this.orderDateEdit,
         note: this.driveEdit.note,
       }).then(() => {
         this.closeModal();

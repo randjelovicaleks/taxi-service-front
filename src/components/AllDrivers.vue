@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container pt-5">
       <mdb-card >
-        <h4 class="card-header indigo white-text font-weight-bold text-uppercase py-3">All drivers</h4>
+        <h4 class="card-header indigo white-text font-weight-bold py-3 text-center">All drivers</h4>
         <mdb-tooltip material trigger="hover" :options="{placement: 'right'}">
           <span slot="tip">Add new driver</span>
           <!--Modal for adding driver-->
