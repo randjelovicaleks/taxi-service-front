@@ -45,7 +45,7 @@
                 <mdb-col>
                   <mdb-label >Choose a vehicle number</mdb-label>
                   <select class="browser-default custom-select mt-3 " v-model="idVehicle">
-                    <option v-for="v in vehicles" :key="v.id" v-value="v.id">{{v.vehicleNumber}}</option>
+                    <option v-for="v in vehicles" :key="v.id" :value="v.id">{{v.vehicleNumber}}</option>
                   </select>
               </mdb-col>
               </mdb-row>

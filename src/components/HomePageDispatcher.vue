@@ -11,30 +11,22 @@
         <mdb-card-body>
           <mdb-row>
             <mdb-col>
-              <mdb-input v-model="startingAddress" label="Starting address" icon="map-marker-alt" />
+              <mdb-input v-model="driveForReserve.startingAddress" label="Starting address" icon="map-marker-alt" />
             </mdb-col>
           </mdb-row>
           <mdb-row>
             <mdb-col>
-              <mdb-input v-model="orderDate" icon="calendar" type="datetime-local" />
+              <mdb-input v-model="driveForReserve.orderDate" icon="calendar" type="datetime-local" />
             </mdb-col>
           </mdb-row>
           <mdb-row>
             <mdb-col>
-              <mdb-input v-model="customerName" type="text" label="Customer name" icon="user" />
-            </mdb-col>
-          </mdb-row>
-           <mdb-row>
-            <mdb-col>
-               <mdb-label >Choose the driver</mdb-label>
-                <select class="browser-default custom-select mt-3 " v-model="idDriver">
-                  <option v-for="d in drivers" :key="d.id" v-value="d.id">{{d.name + ' ' + d.surname}}</option>
-                </select>
+              <mdb-input v-model="driveForReserve.customerName" type="text" label="Customer name" icon="user" />
             </mdb-col>
           </mdb-row>
         </mdb-card-body>
         <mdb-card-footer class="white d-flex justify-content-end">
-          <mdb-btn color="indigo dark text-white" icon="paper-plane" @click="save()" rounded>Send</mdb-btn>
+          <mdb-btn color="indigo dark text-white" icon="angle-right" @click="openModal(driveForReserve)" rounded>Next</mdb-btn>
         </mdb-card-footer>
       </mdb-card>
       
@@ -92,6 +84,24 @@
         </b-tab>
       </b-tabs>
     </div>
+    <!--Modal for choosing free driver-->
+     <mdb-modal :show="choosing" @close="closeModal">
+            <mdb-modal-header class="text-center">
+              <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Choose free driver</mdb-modal-title>
+            </mdb-modal-header>
+            <mdb-modal-body class="mx-3 grey-text">
+            <mdb-row>
+              <mdb-col>
+                <select class="browser-default custom-select mt-3 " v-model="idDriver">
+                  <option v-for="d in drivers" :key="d.id" :value="d.id">{{d.name + ' ' + d.surname}}</option>
+                </select>
+              </mdb-col>
+            </mdb-row>
+            </mdb-modal-body>
+            <mdb-modal-footer center>
+              <mdb-btn @click.native="send" color="indigo dark text-white"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
+            </mdb-modal-footer>
+          </mdb-modal>
   </div>
 </template>
 
@@ -111,7 +121,12 @@ import {
   mdbTbl,
   mdbTblHead,
   mdbTblBody,
-  mdbLabel,
+  mdbModal,
+  mdbModalHeader,
+  mdbModalTitle,
+  mdbModalBody,
+  mdbModalFooter,
+  mdbIcon,
 } from "mdbvue";
 
 const baseUrl = "http://localhost:8080/api";
@@ -132,7 +147,12 @@ export default {
     mdbTbl,
     mdbTblHead,
     mdbTblBody,
-    mdbLabel,
+    mdbModal,
+    mdbModalHeader,
+    mdbModalTitle,
+    mdbModalBody,
+    mdbModalFooter,
+    mdbIcon
   },
   data() {
     return {
@@ -142,10 +162,14 @@ export default {
       drive: {},
       drivesByPhone:[],
       drivesByApp:[],
-      startingAddress: "",
-      orderDate: null,
-      customerName: '',
+      choosing: false,
+      driveForReserve: {
+        startingAddress: "",
+        orderDate: null,
+        customerName: '',
+      },
       idDriver: '',
+      freeDate: null,
     };
   },
   created() {
@@ -162,19 +186,34 @@ export default {
      })
   },
   methods: {
-    /*save: function() {
+    closeModal: function() {
+      this.choosing = false;
+    },
+    openModal: function(driveForReserve) {
+      this.choosing = true;
+
       axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
-      axios.post(baseUrl + '/customer/create/' + this.token.id, {
-          startingAddress: this.startingAddress,
-          orderDate: this.orderDate,
-          note: this.note
+      axios.post(baseUrl + '/dispatcher/find/free/drivers', {
+          freeDate: driveForReserve.orderDate
+      }).then((response) => {
+          this.drivers = response.data;
+      });
+    },
+    send: function() {
+      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+      
+      axios.post(baseUrl + '/dispatcher/create/' + this.token.id + '/' + this.idDriver, {
+          startingAddress: this.driveForReserve.startingAddress,
+          orderDate: this.driveForReserve.orderDate,
+          customerName: this.driveForReserve.customerName,
         })
         .then(() => {
-          console.log("Voznja je uspesno kreirana");
+          console.log("Voznja je uspesno kreirana preko telefona");
+          this.choosing = false;
           location.reload();
         });
-    },*/
+    },
   }
 };
 </script>
