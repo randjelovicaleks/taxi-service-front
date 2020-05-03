@@ -2,7 +2,7 @@
   <div>
     <NavBar />
     <div class="mt-5">
-      <mdb-card class="col-4 mx-auto">
+      <mdb-card class="col-4 mx-auto padding-reset shadow">
         <mdb-card-header class="pt-2" dark color="indigo">
           <mdb-card-title class="pt-3 text-center">
             <strong>Change password</strong>
@@ -33,7 +33,12 @@
         <mdb-card-footer class="white d-flex justify-content-end">
           <mdb-btn color="indigo dark text-white" icon="paper-plane" @click="save" rounded>Send</mdb-btn>
         </mdb-card-footer>
-        <mdb-alert v-if="showAlert" @closeAlert="showAlert=false" dismiss color="success">You successfully changed your password.</mdb-alert>
+        <mdb-alert
+          v-if="showAlert"
+          @closeAlert="showAlert=false"
+          dismiss
+          :color="colorAlert"
+        >{{textAlert}}</mdb-alert>
       </mdb-card>
     </div>
   </div>
@@ -52,7 +57,7 @@ import {
   mdbCardHeader,
   mdbCardTitle,
   mdbCardFooter,
-  mdbAlert,
+  mdbAlert
 } from "mdbvue";
 
 const baseUrl = "http://localhost:8080/api";
@@ -70,44 +75,78 @@ export default {
     mdbCardHeader,
     mdbCardTitle,
     mdbCardFooter,
-    mdbAlert,
+    mdbAlert
   },
   data() {
     return {
       token: JSON.parse(sessionStorage.getItem("token")),
-      oldPassword: "",
-      newPassword: "",
-      confirmingNewPassword: "",
+      oldPassword: '',
+      newPassword: '',
+      confirmingNewPassword: '',
       showAlert: false,
+      textAlert: '',
+      colorAlert: ''
     };
   },
   methods: {
     save: function() {
       if (this.newPassword != this.confirmingNewPassword) {
+        this.colorAlert = "danger";
+        this.textAlert = "Passwords do not match.";
+        this.showAlert = true;
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3500);
         return;
       }
 
-      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+      if (this.oldPassword === '' || this.newPassword === '' || this.confirmingNewPassword === '') {
+        this.colorAlert = "danger";
+        this.textAlert = "You need to enter all fields.";
+        this.showAlert = true;
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3500);
+        return;
+      }
 
-      axios.post(baseUrl + "/user/change/password", {
+      axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${this.token.accessToken}`;
+
+      axios
+        .post(baseUrl + "/user/change/password", {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword
         })
         .then(() => {
-          console.log("Uspesno ste promenili lozinku");
+          this.colorAlert = "success";
+          this.textAlert = "You successfully changed your password.";
           this.showAlert = true;
-          setTimeout(() => {this.showAlert = false;}, 3500);
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 3500);
           this.clearAll();
         });
     },
     clearAll: function() {
-        this.oldPassword = '';
-        this.newPassword = '';
-        this.confirmingNewPassword = '';
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.confirmingNewPassword = '';
     }
   }
 };
 </script>
 
 <style scoped>
+
+.padding-reset {
+  padding: 0;
+}
+
+.shadow {
+  -webkit-box-shadow: 5px 5px 5px 5px;
+  box-shadow: 5px 5px 5px 5px; 
+}
+
 </style>

@@ -49,7 +49,7 @@
           <router-link to="/change/password" class="removeDecoration">Change password</router-link>
         </mdb-nav-item>
         <mdb-nav-item>
-          <router-link to="/login" class="removeDecoration" @click="logout">Log out</router-link>
+          <router-link to="/" class="removeDecoration" @click="logout">Log out</router-link>
         </mdb-nav-item>
 
       </mdb-navbar-nav>

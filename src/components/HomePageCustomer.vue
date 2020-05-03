@@ -1,10 +1,10 @@
 <template>
   <div>
     <NavBar />
-    <div class="row mt-5">
-      <mdb-card class="col-4 mx-auto">
-        <mdb-card-header class="pt-2" dark color="indigo">
-          <mdb-card-title class="pt-3 text-center">
+    <mdb-row class="mt-5">
+      <mdb-card class="col-4 padding-reset mx-auto shadow">
+      <mdb-card-header dark color="indigo">
+        <mdb-card-title class="pt-3 text-center">
             <strong>Reserve drive</strong>
           </mdb-card-title>
         </mdb-card-header>
@@ -21,16 +21,22 @@
           </mdb-row>
           <mdb-row>
             <mdb-col>
-              <mdb-input v-model="note" type="textarea" label="Note" icon="pen" :rows="2" />
+              <mdb-input v-model="note" type="textarea" label="Note" icon="pen" :rows="2" no-resize />
             </mdb-col>
           </mdb-row>
         </mdb-card-body>
         <mdb-card-footer class="white d-flex justify-content-end">
           <mdb-btn color="indigo dark text-white" icon="paper-plane" @click="save()" rounded>Send</mdb-btn>
         </mdb-card-footer>
+        <mdb-alert
+          v-if="showAlertAdd"
+          @closeAlert="showAlertAdd=false"
+          dismiss
+          color="danger"
+        >You need to enter Starting address and order date</mdb-alert>
       </mdb-card>
-  
-      <mdb-card class="col-6 mx-auto">
+
+      <mdb-card class="col-6 padding-reset mx-auto shadow">
         <h4 class="card-header indigo white-text text-center font-weight-bold py-4">All my drives</h4>
         <mdb-card-body>
           <p v-if="drives.length < 1" class="text-center">No drives</p>
@@ -45,44 +51,66 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="drive in drives" :key="drive.id">
-                  <td class="text-center">{{drive.startingAddress}}</td>
-                  <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                  <td class="text-center">{{drive.note}}</td>
-                  <td class="text-center">
-                    <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="edit" @click="openEditModal(drive)">Edit</mdb-btn>
-                  </td>
+                <td class="text-center">{{drive.startingAddress}}</td>
+                <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                <td class="text-center">{{drive.note}}</td>
+                <td class="text-center">
+                  <mdb-btn
+                    type="button"
+                    color="indigo dark py-2 px-3 pz-2 rounded text-white"
+                    size="md"
+                    icon="edit"
+                    @click="openEditModal(drive)"
+                  >Edit</mdb-btn>
+                </td>
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>
         </mdb-card-body>
       </mdb-card>
-    </div>
+    </mdb-row>
     <!--Modal for editing drive-->
-     <mdb-modal :show="editing" @close="closeModal">
-            <mdb-modal-header class="text-center">
-              <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Edit drive <mdb-icon icon="taxi" size="lg" /></mdb-modal-title>
-            </mdb-modal-header>
-            <mdb-modal-body class="mx-3 grey-text">
-              <mdb-row>
-                <mdb-col>
-                  <mdb-input v-model="orderDateEdit" icon="calendar"  class="mb-5" type="datetime-local"  />
-                </mdb-col>
-              </mdb-row>
-              <mdb-row>
-                <mdb-col>
-                  <mdb-input v-model="driveEdit.startingAddress" icon="map-marker-alt" type="text" class="mb-5"/>
-                </mdb-col>
-              </mdb-row>
-              <mdb-row>
-                <mdb-col>
-                  <mdb-input v-model="driveEdit.note" icon="pen" :rows="2" class="mb-5" type="textarea" />
-                </mdb-col>
-              </mdb-row>
-            </mdb-modal-body>
-            <mdb-modal-footer center>
-              <mdb-btn @click.native="edit" color="indigo dark text-white"><mdb-icon icon="paper-plane" /> Send</mdb-btn>
-            </mdb-modal-footer>
-          </mdb-modal>
+    <mdb-modal :show="editing" @close="closeModal">
+      <mdb-modal-header class="text-center">
+        <mdb-modal-title tag="h3" class="w-100 font-weight-bold">
+          Edit drive
+          <mdb-icon icon="taxi" size="lg" />
+        </mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body class="mx-3 grey-text">
+        <mdb-row>
+          <mdb-col>
+            <mdb-input v-model="orderDateEdit" icon="calendar" class="mb-5" type="datetime-local" />
+          </mdb-col>
+        </mdb-row>
+        <mdb-row>
+          <mdb-col>
+            <mdb-input
+              v-model="driveEdit.startingAddress"
+              icon="map-marker-alt"
+              type="text"
+              class="mb-5"
+            />
+          </mdb-col>
+        </mdb-row>
+        <mdb-row>
+          <mdb-col>
+            <mdb-input v-model="driveEdit.note" icon="pen" :rows="2" class="mb-5" type="textarea" />
+          </mdb-col>
+        </mdb-row>
+      </mdb-modal-body>
+      <mdb-modal-footer center>
+        <mdb-btn @click.native="edit" color="indigo dark text-white">
+          <mdb-icon icon="paper-plane" />Send
+        </mdb-btn>
+      </mdb-modal-footer>
+       <mdb-alert
+          v-if="showAlertEdit"
+          @closeAlert="showAlertEdit=false"
+          dismiss
+          color="danger"
+        >You need to enter Starting address and order date</mdb-alert>
+    </mdb-modal>
   </div>
 </template>
 
@@ -107,6 +135,7 @@ import {
   mdbModalBody,
   mdbModalFooter,
   mdbIcon,
+  mdbAlert
 } from "mdbvue";
 
 const baseUrl = "http://localhost:8080/api";
@@ -132,62 +161,92 @@ export default {
     mdbModalBody,
     mdbModalFooter,
     mdbIcon,
+    mdbAlert,
   },
   data() {
     return {
       token: JSON.parse(sessionStorage.getItem("token")),
       drives: [],
       drive: {},
-      startingAddress: "",
+      startingAddress: '',
       orderDate: null,
-      note: "",
+      note: '',
+      orderDateEdit: null,
       driveEdit: {},
       editing: false,
-      orderDateEdit: null,
+      showAlertEdit: false,
+      showAlertAdd: false,
     };
   },
   created() {
-     axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
+    axios.defaults.headers[
+      "Authorization"
+    ] = `Bearer ${this.token.accessToken}`;
 
-     axios.get(baseUrl + '/drive/customer/' + this.token.id)
-     .then((response) => {
-       this.drives = response.data;
-     })
+    axios.get(baseUrl + "/drive/customer/" + this.token.id).then(response => {
+      this.drives = response.data;
+    });
   },
   methods: {
     save: function() {
-      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
-      axios.post(baseUrl + '/customer/create/' + this.token.id, {
+      if (this.startingAddress === '' || this.orderDate == null) {
+        this.showAlertAdd = true;
+        setTimeout(() => {
+          this.showAlertAdd = false;
+        }, 3500);
+        return;
+      }
+
+      axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${this.token.accessToken}`;
+
+      axios
+        .post(baseUrl + "/customer/create/" + this.token.id, {
           startingAddress: this.startingAddress,
           orderDate: this.orderDate,
           note: this.note
         })
         .then(() => {
-          console.log("Voznja je uspesno kreirana");
           location.reload();
         });
     },
     openEditModal: function(drive) {
       this.driveEdit = drive;
       this.editing = true;
-      this.orderDateEdit = new Date(drive.orderDate).toLocaleString();
+      var date = new Date(drive.orderDate);
+      date.setHours(date.getHours() + 2);
+      this.orderDateEdit = date.toISOString().slice(0,16);
     },
     closeModal: function() {
       this.editing = false;
     },
     edit: function() {
-      axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
-      axios.put(baseUrl + '/customer/update/drive/' + this.token.id, {
-        id: this.driveEdit.id,
-        startingAddress: this.driveEdit.startingAddress,
-        orderDate: this.orderDateEdit,
-        note: this.driveEdit.note,
-      }).then(() => {
-        this.closeModal();
-        location.reload();
-      })
+      if (this.driveEdit.startingAddress === '' || this.driveEdit.orderDate == null) {
+        this.showAlertEdit = true;
+        setTimeout(() => {
+          this.showAlertEdit = false;
+        }, 3500);
+        return;
+      }
+
+      axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${this.token.accessToken}`;
+
+      axios
+        .put(baseUrl + "/customer/update/drive/" + this.token.id, {
+          id: this.driveEdit.id,
+          startingAddress: this.driveEdit.startingAddress,
+          orderDate: this.orderDateEdit,
+          note: this.driveEdit.note
+        })
+        .then(() => {
+          this.closeModal();
+          location.reload();
+        });
     }
   }
 };
@@ -195,4 +254,13 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
+
+.padding-reset {
+  padding: 0;
+}
+
+.shadow {
+  -webkit-box-shadow: 5px 5px 5px 5px;
+  box-shadow: 5px 5px 5px 5px; 
+}
 </style>

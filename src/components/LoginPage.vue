@@ -1,22 +1,46 @@
 <template>
   <div class="form-elegant">
     <mdb-row class="d-flex justify-content-center marginTop responsive">
-      <mdb-col md="4" >
-        <mdb-card>
+      <mdb-col md="4">
+        <mdb-card class="shadow">
           <mdb-card-body class="mx-4">
             <div class="text-center">
-              <h3 class="dark-grey-text mb-5"><strong>Sign in</strong></h3>
+              <h3 class="dark-grey-text mb-5">
+                <strong>Sign in</strong>
+              </h3>
             </div>
-            <mdb-input v-model="username" label="Your username" type="text" icon="user"/>
-            <mdb-input v-model="password" label="Your password" type="password" containerClass="mb-0" icon="lock" />
+            <mdb-input v-model="username" label="Your username" type="text" icon="user" />
+            <mdb-input
+              v-model="password"
+              label="Your password"
+              type="password"
+              containerClass="mb-0"
+              icon="lock"
+            />
             <div class="text-center mb-3">
-              <mdb-btn type="button" color="indigo dark text-white" rounded class="btn-block z-depth-1a" @click="login">Sign in</mdb-btn>
+              <mdb-btn
+                type="button"
+                color="indigo dark text-white"
+                rounded
+                class="btn-block"
+                @click="login"
+              >Sign in</mdb-btn>
             </div>
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
-            <p class="font-small grey-text d-flex justify-content-end">Not a member? <router-link to="/signup">  Sign up</router-link></p>
+            <p class="font grey-text d-flex justify-content-end">
+              Not a member?
+              <router-link to="/signup">Sign up</router-link>
+            </p>
           </mdb-modal-footer>
         </mdb-card>
+        <mdb-alert
+          v-if="showAlert"
+          @closeAlert="showAlert=false"
+          dismiss
+          color="danger"
+          class="mt-3"
+        >Username or password are incorrect.</mdb-alert>
       </mdb-col>
     </mdb-row>
   </div>
@@ -24,66 +48,80 @@
 
 
 <script>
-import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbModalFooter } from 'mdbvue';
-import axios from 'axios'
+import {
+  mdbRow,
+  mdbCol,
+  mdbCard,
+  mdbCardBody,
+  mdbInput,
+  mdbBtn,
+  mdbModalFooter,
+  mdbAlert
+} from "mdbvue";
+import axios from "axios";
 
 export default {
-    name: 'LoginPage',
-    components: {
-      mdbRow,
-      mdbCol,
-      mdbCard,
-      mdbCardBody,
-      mdbInput,
-      mdbBtn,
-      mdbModalFooter
+  name: "LoginPage",
+  components: {
+    mdbRow,
+    mdbCol,
+    mdbCard,
+    mdbCardBody,
+    mdbInput,
+    mdbBtn,
+    mdbModalFooter,
+    mdbAlert
+  },
+  data() {
+    return {
+      username: '',
+      password: '',
+      token: null,
+      showAlert: false
+    };
+  },
+  methods: {
+    login: function() {
+      axios
+        .post("http://localhost:8080/auth/login", {
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          this.token = response.data;
+          sessionStorage.setItem("token", JSON.stringify(this.token));
+          this.checkRole(this.token);
+        })
+        .catch(() => {
+          this.showAlert = true;
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 3500);
+        });
     },
-    data() {
-      return {
-          username: '',
-          password: '',
-          token: null,
-      };
-    },
-    methods: {
-      login: function() {
-        axios.post('http://localhost:8080/auth/login', {
-              username: this.username,
-              password: this.password,
-            }).then(response => {this.token = response.data;
-            sessionStorage.setItem('token', JSON.stringify(this.token))
-            this.checkRole(this.token);                      
-            }) 
-            
-      },
-      checkRole: function(token) {
-        if (token.role.authority == "ROLE_CUSTOMER") {
-              this.$router.push('/customer/home')
-        } else if (token.role.authority == "ROLE_DRIVER") {
-              this.$router.push('/driver/home')
-        }else if (token.role.authority == "ROLE_DISPATCHER"){
-              this.$router.push('/dispatcher/home')
-        }
+    checkRole: function(token) {
+      if (token.role.authority == "ROLE_CUSTOMER") {
+        this.$router.push("/customer/home");
+      } else if (token.role.authority == "ROLE_DRIVER") {
+        this.$router.push("/driver/home");
+      } else if (token.role.authority == "ROLE_DISPATCHER") {
+        this.$router.push("/dispatcher/home");
       }
     }
-}
+  }
+};
 </script>
 
 <style scoped>
-  .form-elegant .font-small {
-    font-size: 0.8rem; }
+.form-elegant .font {
+  font-size: 1rem;
+}
+.shadow {
+  -webkit-box-shadow: 5px 5px 5px 5px;
+  box-shadow: 5px 5px 5px 5px; 
+}
 
-  .form-elegant .z-depth-1a {
-    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
-    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
-
-  .form-elegant .z-depth-1-half,
-  .form-elegant .btn:hover {
-    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
-    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
-
-    .marginTop {
-        margin-top: 10%;
-    }
-
+.marginTop {
+  margin-top: 10%;
+}
 </style>

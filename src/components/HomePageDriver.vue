@@ -1,8 +1,8 @@
 <template>
   <div>
     <NavBar />
-    <div class="container pt-5">
-      <mdb-card >
+    <div class="container pt-5 col-8">
+      <mdb-card class="shadow">
         <h4 class="card-header indigo white-text text-center font-weight-bold py-3">All drives without driver</h4>
         <mdb-card-body>
           <p v-if="drives.length < 1" class="text-center">No drives</p>
@@ -67,10 +67,6 @@ export default {
           startingAddress: '',
           orderDate: null,
           note: '',
-         // customer: {
-         //     name: '',
-         //     surname: '',
-         // }
       },
     }
   },
@@ -87,12 +83,7 @@ export default {
 
         axios.put(baseUrl + '/driver/take/drive/' + idDrive + '/' +this.token.id, {
             id: this.drive.id,
-           // startingAddress: this.drive.startingAddress,
-           // orderDate: this.drive.orderDate,
-           // note: this.drive.note,
-
         }).then(() => {
-          console.log("Voznja je preuzeta od strane vozaca sa id" + this.token.id);
           location.reload();
         })
      }
@@ -107,6 +98,11 @@ export default {
     text-decoration: none;
     color: rgb(17, 16, 16);
     font-family: 'Raleway', sans-serif;
+}
+
+.shadow {
+  -webkit-box-shadow: 5px 5px 5px 5px;
+  box-shadow: 5px 5px 5px 5px; 
 }
 
 </style>
