@@ -21,7 +21,8 @@
                   <td class="text-center">{{drive.startingAddress}}</td>
                   <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
                   <td class="text-center">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
-                  <td class="text-center">{{drive.note}}</td>
+                  <td class="text-center" v-if="drive.note != ''">{{drive.note}}</td>
+                  <td class="text-center" v-else>Drive does not have note</td>
                   <td class="text-center">
                     <mdb-btn type="button" color="indigo dark py-2 px-3 pz-2 rounded text-white" size="md" icon="taxi" @click="takeDrive(drive.id)">Take a drive</mdb-btn>
                   </td>

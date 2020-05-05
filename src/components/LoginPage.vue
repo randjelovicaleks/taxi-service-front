@@ -29,8 +29,7 @@
           </mdb-card-body>
           <mdb-modal-footer class="mx-5 pt-3 mb-1">
             <p class="font grey-text d-flex justify-content-end">
-              Not a member?
-              <router-link to="/signup">Sign up</router-link>
+              Not a member?<router-link to="/signup">Sign up</router-link>
             </p>
           </mdb-modal-footer>
         </mdb-card>

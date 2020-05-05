@@ -21,7 +21,7 @@
           </mdb-row>
           <mdb-row>
             <mdb-col>
-              <mdb-input v-model="note" type="textarea" label="Note" icon="pen" :rows="2" no-resize />
+              <mdb-input v-model="note" type="textarea" label="Note" icon="pen" :rows="2" />
             </mdb-col>
           </mdb-row>
         </mdb-card-body>
@@ -33,7 +33,7 @@
           @closeAlert="showAlertAdd=false"
           dismiss
           color="danger"
-        >You need to enter Starting address and order date</mdb-alert>
+        >{{textAlertAdd}}</mdb-alert>
       </mdb-card>
 
       <mdb-card class="col-6 padding-reset mx-auto shadow">
@@ -53,7 +53,8 @@
               <tr v-for="drive in drives" :key="drive.id">
                 <td class="text-center">{{drive.startingAddress}}</td>
                 <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                <td class="text-center">{{drive.note}}</td>
+                <td class="text-center" v-if="drive.note != ''">{{drive.note}}</td>
+                <td class="text-center" v-else>Drive does not have note</td>
                 <td class="text-center">
                   <mdb-btn
                     type="button"
@@ -80,7 +81,7 @@
       <mdb-modal-body class="mx-3 grey-text">
         <mdb-row>
           <mdb-col>
-            <mdb-input v-model="orderDateEdit" icon="calendar" class="mb-5" type="datetime-local" />
+            <mdb-input v-model="orderDateEdit" icon="calendar" class="mb-5" type="datetime-local"/>
           </mdb-col>
         </mdb-row>
         <mdb-row>
@@ -109,7 +110,7 @@
           @closeAlert="showAlertEdit=false"
           dismiss
           color="danger"
-        >You need to enter Starting address and order date</mdb-alert>
+        >{{textAlertEdit}}</mdb-alert>
     </mdb-modal>
   </div>
 </template>
@@ -176,6 +177,8 @@ export default {
       editing: false,
       showAlertEdit: false,
       showAlertAdd: false,
+      textAlertAdd: '',
+      textAlertEdit: '',
     };
   },
   created() {
@@ -192,6 +195,7 @@ export default {
 
       if (this.startingAddress === '' || this.orderDate == null) {
         this.showAlertAdd = true;
+        this.textAlertAdd = 'You need to enter starting address and order date';
         setTimeout(() => {
           this.showAlertAdd = false;
         }, 3500);
@@ -210,22 +214,25 @@ export default {
         })
         .then(() => {
           location.reload();
-        });
+        }).catch(() => {
+          this.showAlertAdd = true;
+          this.textAlertAdd = 'You need to enter valid order date';
+          setTimeout(() => {
+            this.showAlertAdd = false;
+          }, 3500);
+        })
     },
     openEditModal: function(drive) {
       this.driveEdit = drive;
       this.editing = true;
-      var date = new Date(drive.orderDate);
-      date.setHours(date.getHours() + 2);
-      this.orderDateEdit = date.toISOString().slice(0,16);
     },
     closeModal: function() {
       this.editing = false;
     },
     edit: function() {
-
-      if (this.driveEdit.startingAddress === '' || this.driveEdit.orderDate == null) {
+      if (this.driveEdit.startingAddress === '' || this.orderDateEdit == null) {
         this.showAlertEdit = true;
+        this.textAlertEdit = 'You need to enter starting address and order date'
         setTimeout(() => {
           this.showAlertEdit = false;
         }, 3500);
@@ -246,7 +253,13 @@ export default {
         .then(() => {
           this.closeModal();
           location.reload();
-        });
+        }).catch(() => {
+          this.showAlertEdit = true;
+          this.textAlertEdit = 'You need to enter valid order date'
+          setTimeout(() => {
+            this.showAlertEdit = false;
+          }, 3500);
+        })
     }
   }
 };

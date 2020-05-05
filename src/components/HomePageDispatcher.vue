@@ -48,7 +48,7 @@
           dismiss
           color="danger"
           class="mt-3"
-        >You need to enter all fileds</mdb-alert>
+        >{{textAlertCard}}</mdb-alert>
       </mdb-card>
 
       <b-tabs content-class="mt-3" class="col-7 mx-auto">
@@ -76,7 +76,7 @@
                   class="text-center"
                 >{{drive.dispatcherDTO.name + ' ' + drive.dispatcherDTO.surname}}</td>
                 <td class="text-center" v-if="drive.price != 0">{{drive.price}}</td>
-                <td class="text-center" v-else>Driver has not entered kilometers yet</td>
+                <td class="text-center" v-else>Driver does not enter kilometers</td>
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>
@@ -99,8 +99,10 @@
                 <td class="text-center">{{drive.startingAddress}}</td>
                 <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
                 <td class="text-center">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
-                <td class="text-center">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
-                <td class="text-center">{{drive.note}}</td>
+                <td class="text-center" v-if="drive.driverDTO != null">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
+                <td class="text-center" v-else>Drive is not taken</td>
+                <td class="text-center" v-if="drive.note != ''">{{drive.note}}</td>
+                <td class="text-center" v-else>Drive does not have note</td>
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>
@@ -123,7 +125,7 @@
       </mdb-modal-body>
       <mdb-modal-footer center>
         <mdb-btn @click.native="send" color="indigo dark text-white">
-          <mdb-icon icon="paper-plane" />Send
+          <mdb-icon icon="paper-plane" /> Send
         </mdb-btn>
       </mdb-modal-footer>
        <mdb-alert
@@ -206,6 +208,7 @@ export default {
       freeDate: null,
       showAlertCard: false,
       showAlertModal: false,
+      textAlertCard: '',
     };
   },
   created() {
@@ -227,14 +230,15 @@ export default {
     },
     openModal: function(driveForReserve) {
       if (driveForReserve.startingAddress === '' || driveForReserve.orderDate === null || driveForReserve.customerName === '') {
+        this.textAlertCard = 'You need to enter all fileds';
         this.showAlertCard = true;
         setTimeout(() => {
           this.showAlertCard = false;
         }, 3500);
         return;
-      }
-      this.choosing = true;
 
+      }
+     
       axios.defaults.headers[
         "Authorization"
       ] = `Bearer ${this.token.accessToken}`;
@@ -244,8 +248,15 @@ export default {
           freeDate: driveForReserve.orderDate
         })
         .then(response => {
+          this.choosing = true;
           this.drivers = response.data;
-        });
+        }).catch(() => {
+          this.textAlertCard = 'You need to enter valid order date';
+          this.showAlertCard = true;
+          setTimeout(() => {
+            this.showAlertCard = false;
+          }, 3500);
+        })
     },
     send: function() {
       if (this.idDriver === '') {

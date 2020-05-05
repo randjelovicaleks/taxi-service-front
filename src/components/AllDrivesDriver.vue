@@ -62,7 +62,7 @@
       </mdb-modal-body>
       <mdb-modal-footer center>
         <mdb-btn @click.native="save" color="indigo dark text-white">
-          <mdb-icon icon="paper-plane" />Send
+          <mdb-icon icon="paper-plane" /> Send
         </mdb-btn>
       </mdb-modal-footer>
        <mdb-alert
