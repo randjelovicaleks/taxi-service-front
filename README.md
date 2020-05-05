@@ -1,5 +1,7 @@
 # taxi-service-front
 
+This is frontend for taxi service application. This is written in Vue.js using vue-bootstrap with material design for styles
+
 ## Project setup
 ```
 npm install
