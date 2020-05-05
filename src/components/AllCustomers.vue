@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container pt-5 col-8">
       <mdb-card class="shadow">
-        <h4 class="card-header indigo white-text text-center font-weight-bold py-3">All customers</h4>
+        <h4 class="card-header indigo white-text text-center py-3">All customers</h4>
         <mdb-card-body>
           <mdb-tbl>
             <mdb-tbl-head>
@@ -17,11 +17,11 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="customer in customers" :key="customer.id">
-                  <td class="text-center">{{customer.name}}</td>
-                  <td class="text-center">{{customer.surname}}</td>
-                  <td class="text-center">{{customer.username}}</td>
-                  <td class="text-center">{{customer.address}}</td>
-                  <td class="text-center">{{customer.phoneNumber}}</td>
+                  <td class="text-center font-modifier">{{customer.name}}</td>
+                  <td class="text-center font-modifier">{{customer.surname}}</td>
+                  <td class="text-center font-modifier">{{customer.username}}</td>
+                  <td class="text-center font-modifier">{{customer.address}}</td>
+                  <td class="text-center font-modifier">{{customer.phoneNumber}}</td>
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>
@@ -78,7 +78,10 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
+.font-modifier {
+  font-size: 0.9rem;
+  font-weight: 350;
+}
 
 .removeDecoration {
     text-decoration: none;

@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container pt-5 col-8">
       <mdb-card class="shadow">
-        <h4 class="card-header indigo white-text font-weight-bold py-3 text-center">All drivers</h4>
+        <h4 class="card-header indigo white-text py-3 text-center">All drivers</h4>
         <mdb-tooltip material trigger="hover" :options="{placement: 'right'}">
           <span slot="tip">Add new driver</span>
           <!--Modal for adding driver-->
@@ -132,14 +132,14 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="driver in drivers" :key="driver.id">
-                <td class="text-center">{{driver.name}}</td>
-                <td class="text-center">{{driver.surname}}</td>
-                <td class="text-center">{{driver.username}}</td>
-                <td class="text-center">{{driver.address}}</td>
-                <td class="text-center">{{driver.phoneNumber}}</td>
-                <td class="text-center">{{driver.taxiCardNumber}}</td>
-                <td class="text-center">{{driver.salary}}</td>
-                <td class="text-center">
+                <td class="text-center font-modifier">{{driver.name}}</td>
+                <td class="text-center font-modifier">{{driver.surname}}</td>
+                <td class="text-center font-modifier">{{driver.username}}</td>
+                <td class="text-center font-modifier">{{driver.address}}</td>
+                <td class="text-center font-modifier">{{driver.phoneNumber}}</td>
+                <td class="text-center font-modifier">{{driver.taxiCardNumber}}</td>
+                <td class="text-center font-modifier">{{driver.salary}}</td>
+                <td class="text-center font-modifier">
                   <mdb-btn
                     type="button"
                     color="indigo dark py-2 px-3 pz-2 rounded text-white"
@@ -382,7 +382,10 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
+.font-modifier {
+  font-size: 0.9rem;
+  font-weight: 350;
+}
 
 .removeDecoration {
   text-decoration: none;

@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container pt-5 col-8">
       <mdb-card class="shadow">
-        <h4 class="card-header indigo white-text text-center font-weight-bold py-3">All vehicles</h4>
+        <h4 class="card-header indigo white-text text-center py-3">All vehicles</h4>
         <mdb-tooltip material trigger="hover" :options="{placement: 'right'}">
           <span slot="tip">Add new vehicle</span>
           <!--Modal for adding vehicle-->
@@ -96,17 +96,17 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="vehicle in vehicles" :key="vehicle.id">
-                <td class="text-center font-fix">{{vehicle.model}}</td>
-                <td class="text-center">{{vehicle.manufacturer}}</td>
-                <td class="text-center">{{vehicle.firstRegistration}}</td>
-                <td class="text-center">{{vehicle.registrationNumber}}</td>
-                <td class="text-center">{{vehicle.vehicleNumber}}</td>
-                <td class="text-center" v-if="vehicle.driverDTO === null">Vehicle has no driver</td>
+                <td class="text-center font-modifier">{{vehicle.model}}</td>
+                <td class="text-center font-modifier">{{vehicle.manufacturer}}</td>
+                <td class="text-center font-modifier">{{vehicle.firstRegistration}}</td>
+                <td class="text-center font-modifier">{{vehicle.registrationNumber}}</td>
+                <td class="text-center font-modifier">{{vehicle.vehicleNumber}}</td>
+                <td class="text-center font-modifier" v-if="vehicle.driverDTO === null">Vehicle has no driver</td>
                 <td
-                  class="text-center"
+                  class="text-center font-modifier"
                   v-else
                 >{{vehicle.driverDTO.name + ' ' + vehicle.driverDTO.surname}}</td>
-                <td class="text-center">
+                <td class="text-center font-modifier">
                   <mdb-btn
                     type="button"
                     color="indigo dark py-2 px-3 pz-2 rounded text-white"
@@ -324,7 +324,10 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
+.font-modifier {
+  font-size: 0.9rem;
+  font-weight: 350;
+}
 
 .removeDecoration {
   text-decoration: none;

@@ -1,12 +1,10 @@
 <template>
   <div>
     <NavBar />
-    <mdb-row class="mt-5">
+    <mdb-row class="mt-5 overflow-fix">
       <mdb-card class="col-4 padding-reset mx-auto shadow">
       <mdb-card-header dark color="indigo">
-        <mdb-card-title class="pt-3 text-center">
-            <strong>Reserve drive</strong>
-          </mdb-card-title>
+        <mdb-card-title class="pt-3 text-center">Reserve drive</mdb-card-title>
         </mdb-card-header>
         <mdb-card-body>
           <mdb-row>
@@ -37,7 +35,7 @@
       </mdb-card>
 
       <mdb-card class="col-6 padding-reset mx-auto shadow">
-        <h4 class="card-header indigo white-text text-center font-weight-bold py-4">All my drives</h4>
+        <h4 class="card-header indigo white-text text-center py-4">All my drives</h4>
         <mdb-card-body>
           <p v-if="drives.length < 1" class="text-center">No drives</p>
           <mdb-tbl v-else>
@@ -51,11 +49,11 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="drive in drives" :key="drive.id">
-                <td class="text-center">{{drive.startingAddress}}</td>
-                <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                <td class="text-center" v-if="drive.note != ''">{{drive.note}}</td>
-                <td class="text-center" v-else>Drive does not have note</td>
-                <td class="text-center">
+                <td class="text-center font-modifier">{{drive.startingAddress}}</td>
+                <td class="text-center font-modifier">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                <td class="text-center font-modifier" v-if="drive.note != ''">{{drive.note}}</td>
+                <td class="text-center font-modifier" v-else>Drive does not have note</td>
+                <td class="text-center font-modifier">
                   <mdb-btn
                     type="button"
                     color="indigo dark py-2 px-3 pz-2 rounded text-white"
@@ -266,8 +264,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
-
 .padding-reset {
   padding: 0;
 }
@@ -275,5 +271,10 @@ export default {
 .shadow {
   -webkit-box-shadow: 5px 5px 5px 5px;
   box-shadow: 5px 5px 5px 5px; 
+}
+
+.font-modifier {
+  font-size: 0.9rem;
+  font-weight: 350;
 }
 </style>

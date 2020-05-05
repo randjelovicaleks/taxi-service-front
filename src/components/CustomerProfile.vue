@@ -7,9 +7,7 @@
     <div class="mt-5 container col-6">
       <mdb-card class="d-flex justify-content-center shadow">
         <mdb-card-header class="pt-2" dark color="indigo">
-          <mdb-card-title class="pt-3">
-            <strong>About you</strong>
-          </mdb-card-title>
+          <mdb-card-title class="pt-3">About you</mdb-card-title>
         </mdb-card-header>
         <mdb-card-body>
           <mdb-row>

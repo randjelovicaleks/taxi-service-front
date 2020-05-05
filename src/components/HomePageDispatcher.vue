@@ -4,9 +4,7 @@
     <div class="row mt-5">
       <mdb-card class="col-4 padding-reset mx-auto shadow">
         <mdb-card-header class="pt-2" dark color="indigo">
-          <mdb-card-title class="pt-3 text-center">
-            <strong>Add drive</strong>
-          </mdb-card-title>
+          <mdb-card-title class="pt-3 text-center">Add drive</mdb-card-title>
         </mdb-card-header>
         <mdb-card-body>
           <mdb-row>
@@ -68,15 +66,15 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="drive in drivesByPhone" :key="drive.id">
-                <td class="text-center">{{drive.startingAddress}}</td>
-                <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                <td class="text-center">{{drive.customerName}}</td>
-                <td class="text-center">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
+                <td class="text-center font-modifier">{{drive.startingAddress}}</td>
+                <td class="text-center font-modifier">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                <td class="text-center font-modifier">{{drive.customerName}}</td>
+                <td class="text-center font-modifier">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
                 <td
-                  class="text-center"
+                  class="text-center font-modifier"
                 >{{drive.dispatcherDTO.name + ' ' + drive.dispatcherDTO.surname}}</td>
-                <td class="text-center" v-if="drive.price != 0">{{drive.price}}</td>
-                <td class="text-center" v-else>Driver does not enter kilometers</td>
+                <td class="text-center font-modifier" v-if="drive.price != 0">{{drive.price}}</td>
+                <td class="text-center font-modifier" v-else>Driver does not enter kilometers</td>
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>
@@ -96,13 +94,13 @@
             </mdb-tbl-head>
             <mdb-tbl-body>
               <tr v-for="drive in drivesByApp" :key="drive.id">
-                <td class="text-center">{{drive.startingAddress}}</td>
-                <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                <td class="text-center">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
-                <td class="text-center" v-if="drive.driverDTO != null">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
-                <td class="text-center" v-else>Drive is not taken</td>
-                <td class="text-center" v-if="drive.note != ''">{{drive.note}}</td>
-                <td class="text-center" v-else>Drive does not have note</td>
+                <td class="text-center font-modifier">{{drive.startingAddress}}</td>
+                <td class="text-center font-modifier">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                <td class="text-center font-modifier">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
+                <td class="text-center font-modifier" v-if="drive.driverDTO != null">{{drive.driverDTO.name + ' ' + drive.driverDTO.surname}}</td>
+                <td class="text-center font-modifier" v-else>Drive is not taken</td>
+                <td class="text-center font-modifier" v-if="drive.note != ''">{{drive.note}}</td>
+                <td class="text-center font-modifier" v-else>Drive does not have note</td>
               </tr>
             </mdb-tbl-body>
           </mdb-tbl>
@@ -230,7 +228,7 @@ export default {
     },
     openModal: function(driveForReserve) {
       if (driveForReserve.startingAddress === '' || driveForReserve.orderDate === null || driveForReserve.customerName === '') {
-        this.textAlertCard = 'You need to enter all fileds';
+        this.textAlertCard = 'You need to enter all fields';
         this.showAlertCard = true;
         setTimeout(() => {
           this.showAlertCard = false;
@@ -290,8 +288,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
-
 .padding-reset {
   padding: 0;
 }
@@ -299,5 +295,10 @@ export default {
 .shadow {
   -webkit-box-shadow: 5px 5px 5px 5px;
   box-shadow: 5px 5px 5px 5px; 
+}
+
+.font-modifier {
+  font-size: 0.9rem;
+  font-weight: 350;
 }
 </style>

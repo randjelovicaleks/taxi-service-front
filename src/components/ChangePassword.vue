@@ -4,9 +4,7 @@
     <div class="mt-5">
       <mdb-card class="col-4 mx-auto padding-reset shadow">
         <mdb-card-header class="pt-2" dark color="indigo">
-          <mdb-card-title class="pt-3 text-center">
-            <strong>Change password</strong>
-          </mdb-card-title>
+          <mdb-card-title class="pt-3 text-center">Change password</mdb-card-title>
         </mdb-card-header>
         <mdb-card-body>
           <mdb-row>

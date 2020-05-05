@@ -5,7 +5,7 @@
       <mdb-tooltip material trigger="hover" :options="{placement: 'bottom'}">
         <span slot="tip">Drive by app is with note, but drive by phone is without note</span>
         <mdb-card slot="reference" class="shadow">
-          <h4 class="card-header indigo white-text text-center font-weight-bold py-3">My drives</h4>
+          <h4 class="card-header indigo white-text text-center py-3">My drives</h4>
           <mdb-card-body>
             <p v-if="drives.length < 1" class="text-center">No drives</p>
             <mdb-tbl v-else>
@@ -21,17 +21,14 @@
               </mdb-tbl-head>
               <mdb-tbl-body v-if="drives.length > 1">
                 <tr v-for="drive in drives" :key="drive.id">
-                  <td class="text-center">{{drive.startingAddress}}</td>
-                  <td class="text-center">{{new Date(drive.orderDate).toLocaleString()}}</td>
-                  <td
-                    class="text-center"
-                    v-if="drive.customerDTO != null"
-                  >{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
-                  <td class="text-center" v-else>{{drive.customerName}}</td>
-                  <td class="text-center" v-if="drive.note != null">{{drive.note}}</td>
-                  <td class="text-center" v-else>Drive has no note</td>
-                  <td class="text-center">{{drive.price}}</td>
-                  <td class="text-center" v-if="drive.price === 0">
+                  <td class="text-center font-modifier">{{drive.startingAddress}}</td>
+                  <td class="text-center font-modifier">{{new Date(drive.orderDate).toLocaleString()}}</td>
+                  <td class="text-center font-modifier" v-if="drive.customerDTO != null">{{drive.customerDTO.name + ' ' + drive.customerDTO.surname}}</td>
+                  <td class="text-center font-modifier" v-else>{{drive.customerName}}</td>
+                  <td class="text-center font-modifier" v-if="drive.note != null">{{drive.note}}</td>
+                  <td class="text-center font-modifier" v-else>Drive has no note</td>
+                  <td class="text-center font-modifier">{{drive.price}}</td>
+                  <td class="text-center font-modifier" v-if="drive.price === 0">
                     <mdb-btn
                       type="button"
                       color="indigo dark py-2 px-3 pz-2 rounded text-white"
@@ -50,7 +47,7 @@
     </div>
     <mdb-modal :show="adding" @close="closeModal">
       <mdb-modal-header class="text-center">
-        <mdb-modal-title tag="h3" class="w-100 font-weight-bold">Add kilometers</mdb-modal-title>
+        <mdb-modal-title tag="h3" class="w-100">Add kilometers</mdb-modal-title>
       </mdb-modal-header>
       <mdb-modal-body class="mx-3 grey-text">
         <mdb-row>
@@ -183,8 +180,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap");
-
 .removeDecoration {
   text-decoration: none;
   color: rgb(17, 16, 16);
@@ -194,5 +189,10 @@ export default {
 .shadow {
   -webkit-box-shadow: 5px 5px 5px 5px;
   box-shadow: 5px 5px 5px 5px; 
+}
+
+.font-modifier {
+  font-size: 0.9rem;
+  font-weight: 350;
 }
 </style>
