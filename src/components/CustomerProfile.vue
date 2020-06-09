@@ -139,7 +139,7 @@ export default {
       axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .put(baseUrl + "/update", {
+        .put(baseUrl, {
           id: this.token.id,
           name: customer.name,
           surname: customer.surname,

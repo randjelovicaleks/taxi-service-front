@@ -52,7 +52,7 @@
               <mdb-input v-model="driver.taxiCardNumber" icon="taxi" type="text" class="mb-5" />
             </mdb-col>
             <mdb-col>
-              <mdb-input v-model="driver.salary" icon="money-check-alt" type="number" class="mb-5" />
+              <mdb-input v-model="driver.salary" icon="money-check-alt" type="number" class="mb-5" disabled/>
             </mdb-col>
           </mdb-row>
         </mdb-card-body>
@@ -149,14 +149,13 @@ export default {
       axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .put(baseUrl + "/update", {
+        .put(baseUrl, {
           id: this.token.id,
           name: driver.name,
           surname: driver.surname,
           address: driver.address,
           phoneNumber: driver.phoneNumber,
           taxiCardNumber: driver.taxiCardNumber,
-          salary: driver.salary
         })
         .then(response => {
           driver = response.data;

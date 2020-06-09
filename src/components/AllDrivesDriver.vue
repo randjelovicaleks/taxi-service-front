@@ -169,7 +169,7 @@ export default {
         "Authorization"
       ] = `Bearer ${this.token.accessToken}`;
 
-      axios.put(baseUrl + "/driver/calculate/price/" + this.token.id + "/" + this.idDrive + "/" + this.kilometers)
+      axios.put(baseUrl + "/driver/" + this.token.id + "/drive/" + this.idDrive + "/" + this.kilometers)
         .then(() => {
           this.closeModal();
           location.reload();

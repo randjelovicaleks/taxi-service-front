@@ -270,7 +270,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .post(baseUrl + "/vehicle/create", {
+        .post(baseUrl + "/vehicle", {
           model: this.vehicle.model,
           manufacturer: this.vehicle.manufacturer,
           firstRegistration: this.vehicle.firstRegistration,
@@ -306,7 +306,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .put(baseUrl + "/vehicle/update", {
+        .put(baseUrl + "/vehicle", {
           id: this.vehicleEdit.id,
           model: this.vehicleEdit.model,
           manufacturer: this.vehicleEdit.manufacturer,

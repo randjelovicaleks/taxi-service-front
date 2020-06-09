@@ -70,7 +70,7 @@ export default {
   created() {
     axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
-    axios.get(baseUrl + '/all').then((response) => {
+    axios.get(baseUrl).then((response) => {
       this.customers = response.data;
     });
   },

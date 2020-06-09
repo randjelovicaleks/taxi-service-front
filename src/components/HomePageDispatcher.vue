@@ -242,7 +242,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .post(baseUrl + "/dispatcher/find/free/drivers", {
+        .post(baseUrl + "/dispatcher/free/drivers", {
           freeDate: driveForReserve.orderDate
         })
         .then(response => {
@@ -271,7 +271,7 @@ export default {
 
       axios
         .post(
-          baseUrl + "/dispatcher/create/" + this.token.id + "/" + this.idDriver,
+          baseUrl + "/dispatcher/" + this.token.id + "/driver/" + this.idDriver,
           {
             startingAddress: this.driveForReserve.startingAddress,
             orderDate: this.driveForReserve.orderDate,

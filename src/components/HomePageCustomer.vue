@@ -205,7 +205,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .post(baseUrl + "/customer/create/" + this.token.id, {
+        .post(baseUrl + "/customer/" + this.token.id + "/drive", {
           startingAddress: this.startingAddress,
           orderDate: this.orderDate,
           note: this.note
@@ -242,7 +242,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .put(baseUrl + "/customer/update/drive/" + this.token.id, {
+        .put(baseUrl + "/customer/" + this.token.id + "/drive", {
           id: this.driveEdit.id,
           startingAddress: this.driveEdit.startingAddress,
           orderDate: this.orderDateEdit,

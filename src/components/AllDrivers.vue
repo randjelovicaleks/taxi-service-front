@@ -327,7 +327,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .post(baseUrl + "/dispatcher/create/driver/" + this.idVehicle, {
+        .post(baseUrl + "/dispatcher/driver/" + this.idVehicle, {
           name: this.driver.name,
           surname: this.driver.surname,
           username: this.driver.username,
@@ -363,7 +363,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .put(baseUrl + "/driver/update", {
+        .put(baseUrl + "/driver", {
           id: this.driverEdit.id,
           name: this.driverEdit.name,
           surname: this.driverEdit.surname,

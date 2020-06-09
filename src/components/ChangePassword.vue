@@ -58,7 +58,7 @@ import {
   mdbAlert
 } from "mdbvue";
 
-const baseUrl = "http://localhost:8080/api";
+const baseUrl = "http://localhost:8080/api/user";
 
 export default {
   name: "ChangePassword",
@@ -113,7 +113,7 @@ export default {
       ] = `Bearer ${this.token.accessToken}`;
 
       axios
-        .post(baseUrl + "/user/change/password", {
+        .post(baseUrl + "/password", {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword
         })

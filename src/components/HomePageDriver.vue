@@ -82,7 +82,7 @@ export default {
      takeDrive: function(idDrive) {
         axios.defaults.headers["Authorization"] = `Bearer ${this.token.accessToken}`;
 
-        axios.put(baseUrl + '/driver/take/drive/' + idDrive + '/' +this.token.id, {
+        axios.put(baseUrl + '/driver/' + this.token.id + '/drive/' + idDrive, {
             id: this.drive.id,
         }).then(() => {
           location.reload();
